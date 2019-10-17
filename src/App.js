@@ -9,17 +9,6 @@ import Header from './components/header/header.component';
 
 import './App.css';
 
-const getSnapshotData = docRef => {
-  return new Promise((resolve, reject) => {
-    docRef.onSnapshot(doc => {
-      if (!doc.exists) {
-        return reject(null);
-      }
-      resolve({ id: doc.id, ...doc.data() });
-    });
-  });
-};
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -30,20 +19,6 @@ class App extends Component {
   }
 
   unsubscribeFromAuth = null;
-
-  // componentDidMount() {
-  //   this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-  //     let currentUser = null;
-
-  //     if (userAuth) {
-  //       const userRef = await createUserProfileDocument(userAuth);
-
-  //       currentUser = await getSnapshotData(userRef);
-  //     }
-
-  //     this.setState({ currentUser });
-  //   });
-  // }
 
   componentDidMount() {
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
@@ -58,7 +33,6 @@ class App extends Component {
               ...userData,
             },
           });
-          console.log(this.state);
         });
       }
 

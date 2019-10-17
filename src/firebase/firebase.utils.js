@@ -68,10 +68,57 @@ const createUserProfileDocument = async (userAuth, additionalData) => {
   return userRef;
 };
 
+const handleFirebaseSignInError = error => {
+  let errorMessage = '';
+  switch (error.code) {
+    case 'auth/wrong-password':
+    case 'auth/invalid-email':
+      errorMessage = 'Wrong email or password';
+      break;
+
+    case 'auth/user-disabled':
+      errorMessage =
+        'The user corresponding to the given email has been disabled';
+      break;
+
+    case 'auth/user-not-found':
+      errorMessage = 'There is no user corresponding to the given email';
+      break;
+
+    default:
+      errorMessage = error.message;
+  }
+  alert(errorMessage);
+};
+
+const handleFirebaseSignUpError = error => {
+  let errorMessage = '';
+  switch (error.code) {
+    case 'auth/weak-password':
+      errorMessage = 'Please try a stronger password';
+      break;
+
+    case 'auth/email-already-in-use':
+      errorMessage =
+        'There is an existing account with that email address.  Please sign in.';
+      break;
+
+    case 'auth/invalid-email':
+      errorMessage = 'Please make sure email is valid';
+      break;
+
+    default:
+      errorMessage = error.message;
+  }
+  alert(errorMessage);
+};
+
 export {
   auth,
   firestore,
   signInWithGoogle,
   createUserProfileDocument,
+  handleFirebaseSignInError,
+  handleFirebaseSignUpError,
   firebase as default,
 };

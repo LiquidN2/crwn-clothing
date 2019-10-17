@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 
-import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
+import {
+  auth,
+  createUserProfileDocument,
+  handleFirebaseSignUpError,
+} from '../../firebase/firebase.utils';
 
 import FormInput from '../form-input/form-input.component';
 import CustumButton from '../custom-button/custom-button.component';
@@ -54,20 +58,7 @@ class SignUp extends Component {
         passwordConfirm: '',
       });
     } catch (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-
-      if (errorCode === 'auth/weak-password') {
-        alert('The password is too weak.');
-      } else if (errorCode === 'auth/email-already-in-use') {
-        alert(
-          'There is an existing account with that email address.  Please sign in.'
-        );
-      } else if (errorCode === 'auth/invalid-email') {
-        alert('Email is not valid.');
-      } else {
-        alert(errorMessage);
-      }
+      handleFirebaseSignUpError(error);
     }
   };
 
