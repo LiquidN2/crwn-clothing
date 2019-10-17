@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { auth } from '../../firebase/firebase.utils';
 
@@ -35,4 +35,4 @@ Header.propTypes = {
   currentUser: PropTypes.object,
 };
 
-export default withRouter(Header);
+export default Header;
