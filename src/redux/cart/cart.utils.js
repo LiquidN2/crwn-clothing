@@ -22,3 +22,14 @@ export const addItemToCart = (cartItems, cartItemToAdd) => {
 
   return [...cartItems, { ...cartItemToAdd, quantity: 1 }];
 };
+
+export const removeItemFromCart = (cartItems, itemId) => {
+  const updatedCartItems = cartItems.map(cartItem => {
+    if (cartItem.id === itemId && cartItem.quantity > 0) {
+      return { ...cartItem, quantity: cartItem.quantity - 1 };
+    }
+    return cartItem;
+  });
+
+  return updatedCartItems;
+};

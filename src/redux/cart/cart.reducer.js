@@ -1,4 +1,4 @@
-import { TOGGLE_CART_DISPLAY, ADD_ITEM } from './cart.types';
+import { TOGGLE_CART_DISPLAY, ADD_ITEM, REMOVE_ITEM } from './cart.types';
 import { addItemToCart } from './cart.utils';
 
 const INITIAL_STATE = {
@@ -19,6 +19,9 @@ const cartReducer = (state = INITIAL_STATE, action) => {
         ...state,
         items: addItemToCart(state.items, action.item),
       };
+
+    case REMOVE_ITEM:
+      return { ...state };
 
     default:
       return state;
