@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 // FIREBASE AUTH
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 
+import PublicRoute from './routers/publicRoute';
+
 // COMPONENTS
 import Header from './components/header/header.component';
 import HomePage from './pages/homepage/homepage.component';
@@ -19,14 +21,6 @@ import { setCurrentUser } from './redux/user/user.actions';
 import './App.css';
 
 class App extends Component {
-  // constructor(props) {
-  //   super(props);
-
-  //   this.state = {
-  //     currentUser: null,
-  //   };
-  // }
-
   unsubscribeFromAuth = null;
 
   componentDidMount() {
@@ -61,7 +55,18 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route exact path="/shop" component={ShopPage} />
-          <Route exact path="/signin" component={SignInAndSignUpPage} />
+          <PublicRoute component={SignInAndSignUpPage} />
+          {/* <Route
+            exact
+            path="/signin"
+            render={() =>
+              this.props.currentUser ? (
+                <Redirect to="/" />
+              ) : (
+                <SignInAndSignUpPage />
+              )
+            }
+          /> */}
         </Switch>
       </div>
     );
@@ -69,14 +74,19 @@ class App extends Component {
 }
 
 App.propTypes = {
+  currentUser: PropTypes.object,
   setCurrentUser: PropTypes.func,
 };
+
+const mapStateToProps = state => ({
+  currentUser: state.user.currentUser,
+});
 
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user)),
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(App);
