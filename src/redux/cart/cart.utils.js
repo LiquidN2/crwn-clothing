@@ -1,0 +1,24 @@
+/**
+ * If an item object to be added exists in the array, update the quantity of the object in the array
+ * If the item does not exist in the array, add it to the array and give the quantity property of 1
+ * @param  {array}   cartItems      array of cart item objects
+ * @param  {object}  cartItemToAdd  cart item object
+ * @return {array}                  the updated array of item objects
+ */
+export const addItemToCart = (cartItems, cartItemToAdd) => {
+  const existingCartItem = cartItems.find(
+    cartItem => cartItem.id === cartItemToAdd.id
+  );
+
+  if (existingCartItem) {
+    return cartItems.map(cartItem => {
+      if (cartItem.id === cartItemToAdd.id) {
+        return { ...cartItem, quantity: cartItem.quantity + 1 };
+      }
+
+      return cartItem;
+    });
+  }
+
+  return [...cartItems, { ...cartItemToAdd, quantity: 1 }];
+};

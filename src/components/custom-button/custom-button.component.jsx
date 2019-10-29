@@ -3,9 +3,13 @@ import PropTypes from 'prop-types';
 
 import './custom-button.styles.scss';
 
-const CustomButton = ({ children, isGoogleSignedIn, ...rest }) => (
+const CustomButton = ({ children, isGoogleSignedIn, inverted, ...rest }) => (
   <button
-    className={`${isGoogleSignedIn ? 'google-signed-in' : ''} custom-button`}
+    className={`
+      ${inverted ? 'inverted' : ''} 
+      ${isGoogleSignedIn ? 'google-signed-in' : ''} 
+      custom-button
+    `}
     {...rest}
   >
     {children}
@@ -15,6 +19,7 @@ const CustomButton = ({ children, isGoogleSignedIn, ...rest }) => (
 CustomButton.propTypes = {
   children: PropTypes.elementType,
   isGoogleSignedIn: PropTypes.bool,
+  inverted: PropTypes.bool,
 };
 
 export default CustomButton;
