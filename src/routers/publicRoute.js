@@ -7,6 +7,7 @@ const PublicRoute = ({ currentUser, component: Component, ...rest }) => {
   const PublicComponent = props => {
     // if is authenticated, redirect to a Private route
     if (currentUser) {
+      console.log('redirecting to home...');
       return <Redirect to="/" />;
     } else {
       // render public component

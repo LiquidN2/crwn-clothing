@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import PropTypes from 'prop-types';
 
 // FIREBASE AUTH
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 
+// ROUTER
 import PublicRoute from './routers/publicRoute';
 
 // COMPONENTS
@@ -13,9 +15,13 @@ import Header from './components/header/header.component';
 import HomePage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop/shop.component';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
+import NotFound from './pages/not-found/not-found.component';
 
 // REDUX ACTIONS
 import { setCurrentUser } from './redux/user/user.actions';
+
+// REDUX SELECTORS
+import { selectCurrentUser } from './redux/user/user.selectors';
 
 // STYLES
 import './App.css';
@@ -55,7 +61,13 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route exact path="/shop" component={ShopPage} />
-          <PublicRoute component={SignInAndSignUpPage} />
+          <PublicRoute
+            exact
+            path="/signin"
+            currentUser={this.props.currentUser}
+            component={SignInAndSignUpPage}
+          />
+          <Route path="/*" component={NotFound} />
           {/* <Route
             exact
             path="/signin"
@@ -78,8 +90,11 @@ App.propTypes = {
   setCurrentUser: PropTypes.func,
 };
 
-const mapStateToProps = state => ({
-  currentUser: state.user.currentUser,
+// const mapStateToProps = state => ({
+//   currentUser: selectCurrentUser(state),
+// });
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
 });
 
 const mapDispatchToProps = dispatch => ({
