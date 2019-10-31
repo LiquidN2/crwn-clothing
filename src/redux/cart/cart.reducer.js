@@ -3,8 +3,10 @@ import {
   HIDE_CART,
   ADD_ITEM,
   REMOVE_ITEM,
+  CLEAR_ITEM,
 } from './cart.types';
-import { addItemToCart } from './cart.utils';
+
+import { addItemToCart, clearItemFromCart } from './cart.utils';
 
 const INITIAL_STATE = {
   hidden: true,
@@ -33,6 +35,12 @@ const cartReducer = (state = INITIAL_STATE, action) => {
 
     case REMOVE_ITEM:
       return { ...state };
+
+    case CLEAR_ITEM:
+      return {
+        ...state,
+        items: clearItemFromCart(state.items, action.itemId),
+      };
 
     default:
       return state;

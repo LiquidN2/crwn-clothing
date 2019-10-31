@@ -33,3 +33,15 @@ export const removeItemFromCart = (cartItems, itemId) => {
 
   return updatedCartItems;
 };
+
+/**
+ * Remove item object from array based on id
+ * @param  {array}   cartItems  array of cart item objects
+ * @param  {number}  itemId     item id
+ * @return {array}              the updated array of item objects
+ */
+export const clearItemFromCart = (cartItems, itemId) => {
+  return cartItems.filter(cartItem => {
+    return cartItem.id !== itemId;
+  });
+};

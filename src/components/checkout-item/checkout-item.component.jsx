@@ -1,9 +1,15 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
+import { clearItem } from '../../redux/cart/cart.actions';
 
 import './checkout-item.styles.scss';
 
-const CheckoutItem = ({ cartItem: { imageUrl, name, price, quantity } }) => {
+const CheckoutItem = ({
+  cartItem: { id, imageUrl, name, price, quantity },
+  clearItem,
+}) => {
   return (
     <div className="checkout-item">
       <div className="image-container">
@@ -12,9 +18,28 @@ const CheckoutItem = ({ cartItem: { imageUrl, name, price, quantity } }) => {
       <span className="name">{name}</span>
       <span className="quantity">{quantity}</span>
       <span className="price">${price}</span>
-      <span className="remove-button">&#10005;</span>
+      <span className="remove-button" onClick={() => clearItem(id)}>
+        &#10005;
+      </span>
     </div>
   );
 };
 
-export default CheckoutItem;
+CheckoutItem.propTypes = {
+  cartItem: PropTypes.object,
+  id: PropTypes.number,
+  price: PropTypes.number,
+  quantity: PropTypes.number,
+  name: PropTypes.string,
+  imageUrl: PropTypes.string,
+  clearItem: PropTypes.func,
+};
+
+const mapDispatchToProps = dispatch => ({
+  clearItem: itemId => dispatch(clearItem(itemId)),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(CheckoutItem);
