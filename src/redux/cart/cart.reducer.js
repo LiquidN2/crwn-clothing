@@ -6,7 +6,11 @@ import {
   CLEAR_ITEM,
 } from './cart.types';
 
-import { addItemToCart, clearItemFromCart } from './cart.utils';
+import {
+  addItemToCart,
+  removeItemFromCart,
+  clearItemFromCart,
+} from './cart.utils';
 
 const INITIAL_STATE = {
   hidden: true,
@@ -34,7 +38,10 @@ const cartReducer = (state = INITIAL_STATE, action) => {
       };
 
     case REMOVE_ITEM:
-      return { ...state };
+      return {
+        ...state,
+        items: removeItemFromCart(state.items, action.itemId),
+      };
 
     case CLEAR_ITEM:
       return {

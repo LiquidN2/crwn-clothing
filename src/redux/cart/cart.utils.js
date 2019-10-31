@@ -24,6 +24,7 @@ export const addItemToCart = (cartItems, cartItemToAdd) => {
 };
 
 export const removeItemFromCart = (cartItems, itemId) => {
+  // if id matches, decrease qty by 1
   const updatedCartItems = cartItems.map(cartItem => {
     if (cartItem.id === itemId && cartItem.quantity > 0) {
       return { ...cartItem, quantity: cartItem.quantity - 1 };
@@ -31,7 +32,8 @@ export const removeItemFromCart = (cartItems, itemId) => {
     return cartItem;
   });
 
-  return updatedCartItems;
+  // remove any item from array whose qty is 0
+  return updatedCartItems.filter(item => item.quantity !== 0);
 };
 
 /**
