@@ -13,12 +13,16 @@ import { selectCartItemsCount } from 'redux/cart/cart.selectors';
 import { ReactComponent as ShoppingIcon } from 'assets/shopping-bag.svg';
 import './cart-icon.styles.scss';
 
-const CartIcon = ({ toggleCartDisplay, itemCount }) => (
-  <div className="cart-icon" onClick={toggleCartDisplay}>
-    <ShoppingIcon className="shopping-icon" />
-    <span className="item-count">{itemCount}</span>
-  </div>
-);
+const CartIcon = ({ toggleCartDisplay, itemCount }) => {
+  return (
+    <div>
+      <div className="cart-icon" onClick={toggleCartDisplay}>
+        <ShoppingIcon className="shopping-icon" />
+        <span className="item-count">{itemCount}</span>
+      </div>
+    </div>
+  );
+};
 
 CartIcon.propTypes = {
   itemCount: PropTypes.number,
