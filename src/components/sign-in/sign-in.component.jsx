@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 
-import FormInput from '../form-input/form-input.component';
-import CustumButton from '../custom-button/custom-button.component';
-
+// FIREBASE AUTH
 import {
   auth,
   signInWithGoogle,
   handleFirebaseSignInError,
-} from '../../firebase/firebase.utils';
+} from 'firebase/firebase.utils';
+
+// CHILD COMPONENTS
+import FormInput from 'components/form-input/form-input.component';
+import CustumButton from 'components/custom-button/custom-button.component';
 
 import './sign-in.styles.scss';
 

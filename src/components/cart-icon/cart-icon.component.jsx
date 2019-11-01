@@ -4,13 +4,13 @@ import { createStructuredSelector } from 'reselect';
 import PropTypes from 'prop-types';
 
 // REDUX ACTIONS
-import { toggleCartDisplay } from '../../redux/cart/cart.actions';
+import { toggleCartDisplay } from 'redux/cart/cart.actions';
 
 // REDUX SELECTORS
-import { selectCartItemsCount } from '../../redux/cart/cart.selectors';
+import { selectCartItemsCount } from 'redux/cart/cart.selectors';
 
 // STYLES
-import { ReactComponent as ShoppingIcon } from '../../assets/shopping-bag.svg';
+import { ReactComponent as ShoppingIcon } from 'assets/shopping-bag.svg';
 import './cart-icon.styles.scss';
 
 const CartIcon = ({ toggleCartDisplay, itemCount }) => (

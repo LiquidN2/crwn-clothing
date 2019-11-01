@@ -4,13 +4,10 @@ import { createStructuredSelector } from 'reselect';
 import PropTypes from 'prop-types';
 
 // COMPONENTS
-import CheckoutItem from '../../components/checkout-item/checkout-item.component';
+import CheckoutItem from 'components/checkout-item/checkout-item.component';
 
 // REDUX SELECTORS
-import {
-  selectCartItems,
-  selectCartTotal,
-} from '../../redux/cart/cart.selectors';
+import { selectCartItems, selectCartTotal } from 'redux/cart/cart.selectors';
 
 // STYLES
 import './checkout.styles.scss';

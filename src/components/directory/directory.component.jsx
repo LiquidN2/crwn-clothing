@@ -4,10 +4,10 @@ import { createStructuredSelector } from 'reselect';
 import PropTypes from 'prop-types';
 
 // CHILD COMPONENTS
-import MenuItem from '../menu-item/menu-item.component';
+import MenuItem from 'components/menu-item/menu-item.component';
 
 // REDUX SELECTORS
-import { selectDirectorySections } from '../../redux/directory/directory.selectors';
+import { selectDirectorySections } from 'redux/directory/directory.selectors';
 
 // STYLES
 import './directory.styles.scss';

@@ -5,14 +5,14 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 // COMPONENTS
-import CustomButton from '../custom-button/custom-button.component';
-import CartItem from '../cart-item/cart-item.component';
+import CustomButton from 'components/custom-button/custom-button.component';
+import CartItem from 'components/cart-item/cart-item.component';
 
 // REDUX SELECTORS
-import { selectCartItems } from '../../redux/cart/cart.selectors';
+import { selectCartItems } from 'redux/cart/cart.selectors';
 
 // REDUX ACTIONS
-import { hideCart } from '../../redux/cart/cart.actions';
+import { hideCart } from 'redux/cart/cart.actions';
 
 // STYLES
 import './cart-dropdown.styles.scss';

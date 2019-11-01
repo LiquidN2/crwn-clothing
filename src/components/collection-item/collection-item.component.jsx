@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import CustumButton from '../custom-button/custom-button.component';
+import CustumButton from 'components/custom-button/custom-button.component';
 
-import { addItem } from '../../redux/cart/cart.actions';
+import { addItem } from 'redux/cart/cart.actions';
 
 import './collection-item.styles.scss';
 

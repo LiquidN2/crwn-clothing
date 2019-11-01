@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 
+// FIREBASE AUTH
 import {
   auth,
   createUserProfileDocument,
   handleFirebaseSignUpError,
-} from '../../firebase/firebase.utils';
+} from 'firebase/firebase.utils';
 
-import FormInput from '../form-input/form-input.component';
-import CustumButton from '../custom-button/custom-button.component';
+// CHILD COMPONENTS
+import FormInput from 'components/form-input/form-input.component';
+import CustumButton from 'components/custom-button/custom-button.component';
 
+// STYLES
 import './sign-up.styles.scss';
 
 class SignUp extends Component {
