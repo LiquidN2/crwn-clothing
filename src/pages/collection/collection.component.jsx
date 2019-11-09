@@ -9,18 +9,22 @@ import CollectionItem from 'components/collection-item/collection-item.component
 import { selectShopCollection } from 'redux/shop/shop.selectors';
 
 // STYLES
-import './collection.styles.scss';
+import {
+  CollectionPageContainer,
+  Title,
+  ItemsContainer,
+} from './collection.styles';
 
 const CollectionPage = ({ collection: { title, items } }) => {
   return (
-    <div className="collection-page">
-      <h2 className="title">{title}</h2>
-      <div className="items">
+    <CollectionPageContainer>
+      <Title>{title}</Title>
+      <ItemsContainer>
         {items.map(item => (
-          <CollectionItem key={item.id} item={item} />
+          <CollectionItem key={item.id} item={item} collectionPage />
         ))}
-      </div>
-    </div>
+      </ItemsContainer>
+    </CollectionPageContainer>
   );
 };
 

@@ -17,9 +17,9 @@ import {
   ItemPrice,
 } from './collection-item.styles';
 
-const CollectionItem = ({ item, addItem }) => {
+const CollectionItem = ({ item, addItem, collectionPage }) => {
   return (
-    <CollectionItemContainer>
+    <CollectionItemContainer collectionPage={collectionPage}>
       <ItemImage imageUrl={item.imageUrl} />
       <CollectionFooter>
         <ItemName>{item.name}</ItemName>
@@ -35,6 +35,7 @@ const CollectionItem = ({ item, addItem }) => {
 CollectionItem.propTypes = {
   item: PropTypes.object,
   addItem: PropTypes.func,
+  collectionPage: PropTypes.bool,
 };
 
 const mapDispatchToProps = dispatch => ({

@@ -12,7 +12,8 @@ export const ItemImage = styled.div`
 `;
 
 export const CollectionItemContainer = styled.div`
-  width: 22%;
+  width: ${props => (props.collectionPage ? '95%' : '22%')}
+  margin-bottom: ${props => (props.collectionPage ? '30px' : 'auto')};
   display: flex;
   flex-direction: column;
   height: 350px;
