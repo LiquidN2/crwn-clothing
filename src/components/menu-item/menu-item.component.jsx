@@ -2,29 +2,28 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
-import './menu-item.styles.scss';
-
-// const MenuItemBackgroundImageStyle = {
-//   backgroundImage:
-// };
+// STYLES
+import {
+  MenuItemContainer,
+  BackgroundImage,
+  Content,
+  Title,
+  Subtitle,
+} from './menu-item.styles';
 
 const MenuItem = ({ title, imageUrl, size, linkUrl, history, match }) => {
-  const MenuItemBackgroundImageStyle = {
-    backgroundImage: `url(${imageUrl})`,
-  };
-
   const handleRedirect = () => {
     history.push(`${match.url}${linkUrl}`);
   };
 
   return (
-    <div className={`${size} menu-item`} onClick={handleRedirect}>
-      <div className="background-image" style={MenuItemBackgroundImageStyle} />
-      <div className="content">
-        <h1 className="title">{title.toUpperCase()}</h1>
-        <span className="subtitle">SHOP NOW</span>
-      </div>
-    </div>
+    <MenuItemContainer large={size === 'large'} onClick={handleRedirect}>
+      <BackgroundImage imageUrl={imageUrl} />
+      <Content>
+        <Title>{title.toUpperCase()}</Title>
+        <Subtitle>SHOP NOW</Subtitle>
+      </Content>
+    </MenuItemContainer>
   );
 };
 

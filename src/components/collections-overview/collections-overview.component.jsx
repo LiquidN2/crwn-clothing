@@ -9,18 +9,19 @@ import CollectionPreview from 'components/collection-preview/collection-preview.
 // REDUX SELECTORS
 import { selectCollectionsForPreview } from 'redux/shop/shop.selectors';
 
-import './collections-overview.styles.scss';
+// STYLES
+import { CollectionsOverviewContainer } from './collections-overview.styles';
 
 const CollectionsOverview = ({ collections }) => {
   return (
-    <div className="collection-overview">
+    <CollectionsOverviewContainer>
       {collections.map(({ id, ...rest }) => {
         return <CollectionPreview key={id} {...rest} />;
       })}
       {/* {Object.entries(collections).map(([key, { id, ...rest }]) => {
         return <CollectionPreview key={id} {...rest} />;
       })} */}
-    </div>
+    </CollectionsOverviewContainer>
   );
 };
 

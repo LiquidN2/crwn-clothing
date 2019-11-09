@@ -1,19 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './cart-item.styles.scss';
+// STYLES
+import {
+  CartItemContainer,
+  ItemDetailsContainer,
+  ItemName,
+} from './cart-item.styles';
 
 const CartItem = ({ item: { name, price, quantity, imageUrl } }) => {
   return (
-    <div className="cart-item">
+    <CartItemContainer>
       <img src={imageUrl} alt="item" />
-      <div className="item-details">
-        <span className="name">{name}</span>
+      <ItemDetailsContainer>
+        <ItemName>{name}</ItemName>
         <span className="price">
           {quantity} x ${price}
         </span>
-      </div>
-    </div>
+      </ItemDetailsContainer>
+    </CartItemContainer>
   );
 };
 

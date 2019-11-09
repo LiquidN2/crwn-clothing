@@ -1,21 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './form-input.styles.scss';
+// STYLES
+import {
+  GroupContainer,
+  StyledFormInputLabel,
+  StyledFormInput,
+} from './form-input.styles';
 
 const FormInput = ({ handleChange, label, id, ...rest }) => {
   return (
-    <div className="group">
-      <input className="form-input" onChange={handleChange} id={id} {...rest} />
+    <GroupContainer>
+      <StyledFormInput onChange={handleChange} id={id} {...rest} />
       {label ? (
-        <label
-          className={`${rest.value.length ? 'shrink' : ''} form-input-label`}
-          htmlFor={id}
-        >
+        <StyledFormInputLabel shrink={rest.value.length} htmlFor={id}>
           {label}
-        </label>
+        </StyledFormInputLabel>
       ) : null}
-    </div>
+    </GroupContainer>
   );
 };
 

@@ -15,7 +15,11 @@ import { selectCartItems } from 'redux/cart/cart.selectors';
 import { hideCart } from 'redux/cart/cart.actions';
 
 // STYLES
-import './cart-dropdown.styles.scss';
+import {
+  CartDropdownContainer,
+  CartItemsContainer,
+  EmptyMessage,
+} from './cart-dropdown.styles';
 
 const CartDropdown = ({ cartItems, history, hideCart }) => {
   const handleCheckOutBtnClick = () => {
@@ -24,20 +28,20 @@ const CartDropdown = ({ cartItems, history, hideCart }) => {
   };
 
   return (
-    <div className="cart-dropdown">
-      <div className="cart-items">
+    <CartDropdownContainer>
+      <CartItemsContainer>
         {cartItems.length > 0 ? (
           cartItems.map(cartItem => {
             return <CartItem key={cartItem.id} item={cartItem} />;
           })
         ) : (
-          <span className="empty-message">Your cart is empty</span>
+          <EmptyMessage>Your cart is empty</EmptyMessage>
         )}
-      </div>
+      </CartItemsContainer>
       <CustomButton onClick={handleCheckOutBtnClick}>
         GO TO CHECKOUT
       </CustomButton>
-    </div>
+    </CartDropdownContainer>
   );
 };
 

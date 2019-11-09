@@ -12,7 +12,8 @@ import FormInput from 'components/form-input/form-input.component';
 import CustumButton from 'components/custom-button/custom-button.component';
 
 // STYLES
-import './sign-up.styles.scss';
+import { SignUpContainer, Title, ButtonsContainer } from './sign-up.styles';
+// import './sign-up.styles.scss';
 
 class SignUp extends Component {
   constructor(props) {
@@ -68,8 +69,8 @@ class SignUp extends Component {
   render() {
     const { displayName, email, password, passwordConfirm } = this.state;
     return (
-      <div className="sign-up">
-        <h2 className="title">I do not have an account</h2>
+      <SignUpContainer>
+        <Title>I do not have an account</Title>
         <span>Sign up with your email and password</span>
 
         <form className="sign-up-form" onSubmit={this.handleSubmit}>
@@ -112,11 +113,11 @@ class SignUp extends Component {
             label="Confirm Password"
             required
           />
-          <div className="buttons">
+          <ButtonsContainer>
             <CustumButton type="submit">Sign In</CustumButton>
-          </div>
+          </ButtonsContainer>
         </form>
-      </div>
+      </SignUpContainer>
     );
   }
 }

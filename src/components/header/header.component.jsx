@@ -19,7 +19,12 @@ import { hideCart } from 'redux/cart/cart.actions';
 
 // STYLES
 import { ReactComponent as Logo } from 'assets/crown.svg';
-import './header.styles.scss';
+import {
+  HeaderContainer,
+  LogoContainer,
+  OptionsContainer,
+  OptionLink,
+} from './header.styles';
 
 // const Header = ({ currentUser, cartDropDownHidden }) => (
 //   <div className="header">
@@ -84,36 +89,30 @@ class Header extends React.Component {
 
   render() {
     return (
-      <div className="header">
-        <Link className="logo-container" to="/">
+      <HeaderContainer>
+        <LogoContainer to="/">
           <Logo className="logo" />
-        </Link>
+        </LogoContainer>
 
-        <div className="options">
-          <Link className="option" to="/shop">
-            SHOP
-          </Link>
+        <OptionsContainer>
+          <OptionLink to="/shop">SHOP</OptionLink>
 
-          <Link className="option" to="/contact">
-            CONTACT
-          </Link>
+          <OptionLink to="/contact">CONTACT</OptionLink>
 
           {this.props.currentUser ? (
-            <div className="option" onClick={() => auth.signOut()}>
+            <OptionLink as="div" onClick={() => auth.signOut()}>
               SIGN OUT
-            </div>
+            </OptionLink>
           ) : (
-            <Link className="option" to="/signin">
-              SIGN IN
-            </Link>
+            <OptionLink to="/signin">SIGN IN</OptionLink>
           )}
 
           <div ref={this.nodeRef}>
             <CartIcon />
             {!this.props.cartDropDownHidden ? <CartDropdown /> : null}
           </div>
-        </div>
-      </div>
+        </OptionsContainer>
+      </HeaderContainer>
     );
   }
 }

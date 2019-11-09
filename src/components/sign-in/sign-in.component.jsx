@@ -11,7 +11,7 @@ import {
 import FormInput from 'components/form-input/form-input.component';
 import CustumButton from 'components/custom-button/custom-button.component';
 
-import './sign-in.styles.scss';
+import { SignInContainer, Title, ButtonsContainer } from './sign-in.styles';
 
 class SignIn extends Component {
   constructor(props) {
@@ -46,8 +46,8 @@ class SignIn extends Component {
   render() {
     const { email, password } = this.state;
     return (
-      <div className="sign-in">
-        <h2 className="title">I have an account</h2>
+      <SignInContainer>
+        <Title>I have an account</Title>
         <span>Sign in with your email and password</span>
 
         <form onSubmit={this.handleSubmit}>
@@ -70,14 +70,14 @@ class SignIn extends Component {
             label="Password"
             required
           />
-          <div className="buttons">
+          <ButtonsContainer>
             <CustumButton type="submit">Sign In</CustumButton>
             <CustumButton isGoogleSignedIn onClick={signInWithGoogle}>
               Sign In With Google
             </CustumButton>
-          </div>
+          </ButtonsContainer>
         </form>
-      </div>
+      </SignInContainer>
     );
   }
 }
