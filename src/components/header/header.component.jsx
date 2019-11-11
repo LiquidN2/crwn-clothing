@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
@@ -100,7 +100,7 @@ class Header extends React.Component {
           <OptionLink to="/contact">CONTACT</OptionLink>
 
           {this.props.currentUser ? (
-            <OptionLink as="div" onClick={() => auth.signOut()}>
+            <OptionLink as="div" to="/" onClick={() => auth.signOut()}>
               SIGN OUT
             </OptionLink>
           ) : (

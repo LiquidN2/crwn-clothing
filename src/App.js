@@ -5,7 +5,11 @@ import { createStructuredSelector } from 'reselect';
 import PropTypes from 'prop-types';
 
 // FIREBASE AUTH
-import { auth, createUserProfileDocument } from './firebase/firebase.utils';
+import {
+  auth,
+  createUserProfileDocument,
+  addCollectionAndItems,
+} from './firebase/firebase.utils';
 
 // ROUTER
 import PublicRoute from './routers/publicRoute';
@@ -23,6 +27,7 @@ import { setCurrentUser } from './redux/user/user.actions';
 
 // REDUX SELECTORS
 import { selectCurrentUser } from './redux/user/user.selectors';
+import { selectCollectionsForPreview } from './redux/shop/shop.selectors';
 
 // STYLES
 import './App.scss';
@@ -31,11 +36,13 @@ class App extends Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
+    const { setCurrentUser, collectionsArray } = this.props;
+
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
 
-        return userRef.onSnapshot(doc => {
+        userRef.onSnapshot(doc => {
           const userData = doc.data();
 
           const currentUser = {
@@ -43,12 +50,21 @@ class App extends Component {
             ...userData,
           };
 
-          this.props.setCurrentUser(currentUser);
+          setCurrentUser(currentUser);
         });
+
+        // const collectionsToAddToFirestore = collectionsArray.map(
+        //   ({ title, items }) => ({ title, items })
+        // );
+
+        // addCollectionAndItems('collections', collectionsToAddToFirestore);
+
+        return;
       }
 
-      this.props.setCurrentUser(userAuth);
+      setCurrentUser(userAuth);
     });
+    // console.log('test');
   }
 
   componentWillUnmount() {
@@ -90,6 +106,7 @@ class App extends Component {
 App.propTypes = {
   currentUser: PropTypes.object,
   setCurrentUser: PropTypes.func,
+  collectionsArray: PropTypes.array,
 };
 
 // const mapStateToProps = state => ({
@@ -97,6 +114,7 @@ App.propTypes = {
 // });
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
+  collectionsArray: selectCollectionsForPreview,
 });
 
 const mapDispatchToProps = dispatch => ({

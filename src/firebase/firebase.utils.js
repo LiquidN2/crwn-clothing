@@ -113,6 +113,87 @@ const handleFirebaseSignUpError = error => {
   alert(errorMessage);
 };
 
+// items in collection as array
+const addCollectionAndItems = async (collectionKey, objectsToAdd) => {
+  console.log('Adding collections to firestore...');
+  const collectionRef = firestore.collection(collectionKey);
+
+  const batch = firestore.batch();
+
+  objectsToAdd.forEach(obj => {
+    const newDocRef = collectionRef.doc();
+    batch.set(newDocRef, obj);
+  });
+
+  return await batch.commit();
+};
+
+// items in collection as collection
+// const addCollectionAndItems = async (collectionKey, objectsToAdd) => {
+//   console.log('Adding collections to firestore...');
+//   const collectionRef = firestore.collection(collectionKey);
+
+//   const batch = firestore.batch();
+
+//   objectsToAdd.forEach(obj => {
+//     const newDocRef = collectionRef.doc();
+//     batch.set(newDocRef, { title: obj.title });
+
+//     const itemsColRef = newDocRef.collection('items');
+//     obj.items.forEach(item => {
+//       const newItemDocRef = itemsColRef.doc();
+//       batch.set(newItemDocRef, item);
+//     });
+//   });
+
+//   return await batch.commit();
+// };
+
+const convertItemsSnapshotToMap = (colRef, docId, childColKey) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const itemsRef = colRef.doc(docId).collection(childColKey);
+      itemsRef.onSnapshot(snapshot => {
+        const items = snapshot.docs.map(doc => {
+          return {
+            firebaseId: doc.id,
+            ...doc.data(),
+          };
+        });
+        resolve(items);
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+const convertCollectionsSnapshotToMap = async (
+  collectionsRef,
+  collections,
+  childColKey
+) => {
+  let transformedCollection = [];
+  for (let i = 0; i < collections.docs.length; i++) {
+    const { id } = collections.docs[i];
+    const { title } = collections.docs[i].data();
+    const routeName = encodeURI(title.toLowerCase());
+
+    const items = await convertItemsSnapshotToMap(
+      collectionsRef,
+      id,
+      childColKey
+    );
+
+    transformedCollection.push({ id, title, routeName, items });
+  }
+
+  return transformedCollection.reduce((accumulator, collection) => {
+    accumulator[collection.title.toLowerCase()] = collection;
+    return accumulator;
+  }, {});
+};
+
 export {
   auth,
   firestore,
@@ -120,5 +201,7 @@ export {
   createUserProfileDocument,
   handleFirebaseSignInError,
   handleFirebaseSignUpError,
+  addCollectionAndItems,
+  convertCollectionsSnapshotToMap,
   firebase as default,
 };
