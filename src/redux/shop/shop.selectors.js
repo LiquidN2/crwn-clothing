@@ -42,8 +42,17 @@ export const selectCollectionsForPreview = createSelector(
 );
 
 export const selectShopCollection = collectionUrlParam => {
-  return createSelector(
-    [selectShopCollections],
-    collections => (collections ? collections[collectionUrlParam] : null)
+  return createSelector([selectShopCollections], collections =>
+    collections ? collections[collectionUrlParam] : null
   );
 };
+
+export const selectShopIsFetching = createSelector(
+  [selectShop],
+  shop => shop.isFetching
+);
+
+export const selectShopErrorMessage = createSelector(
+  [selectShop],
+  shop => shop.errorMessage
+);

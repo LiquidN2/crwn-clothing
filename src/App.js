@@ -5,11 +5,7 @@ import { createStructuredSelector } from 'reselect';
 import PropTypes from 'prop-types';
 
 // FIREBASE AUTH
-import {
-  auth,
-  createUserProfileDocument,
-  addCollectionAndItems,
-} from './firebase/firebase.utils';
+import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 
 // ROUTER
 import PublicRoute from './routers/publicRoute';
@@ -36,13 +32,13 @@ class App extends Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    const { setCurrentUser, collectionsArray } = this.props;
+    const { setCurrentUser } = this.props;
 
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
 
-        userRef.onSnapshot(doc => {
+        return userRef.onSnapshot(doc => {
           const userData = doc.data();
 
           const currentUser = {
@@ -52,14 +48,6 @@ class App extends Component {
 
           setCurrentUser(currentUser);
         });
-
-        // const collectionsToAddToFirestore = collectionsArray.map(
-        //   ({ title, items }) => ({ title, items })
-        // );
-
-        // addCollectionAndItems('collections', collectionsToAddToFirestore);
-
-        return;
       }
 
       setCurrentUser(userAuth);
@@ -121,7 +109,4 @@ const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

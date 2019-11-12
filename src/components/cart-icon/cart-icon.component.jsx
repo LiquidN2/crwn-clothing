@@ -41,7 +41,4 @@ const mapDispatchToProps = dispatch => ({
   toggleCartDisplay: () => dispatch(toggleCartDisplay()),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CartIcon);
+export default connect(mapStateToProps, mapDispatchToProps)(CartIcon);
