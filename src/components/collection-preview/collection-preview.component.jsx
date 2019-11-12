@@ -16,16 +16,17 @@ import {
 const CollectionPreview = ({ title, items, routeName, history, match }) => {
   // only show the first 4 items
   const filteredItems = items.filter((item, index) => index < 4);
+  const handleClick = () => history.push(`${match.path}/${routeName}`);
 
   return (
     <CollectionPreviewContainer>
-      <Title>{title.toUpperCase()}</Title>
+      <Title onClick={handleClick}>{title.toUpperCase()}</Title>
       <Preview>
         {filteredItems.map(item => (
           <CollectionItem key={item.id} item={item} />
         ))}
       </Preview>
-      <SeeMoreLink onClick={() => history.push(`${match.path}/${routeName}`)}>
+      <SeeMoreLink onClick={handleClick}>
         See more {title.toLowerCase()} &#8594;
       </SeeMoreLink>
     </CollectionPreviewContainer>
