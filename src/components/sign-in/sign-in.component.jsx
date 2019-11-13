@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 // FIREBASE AUTH
-import {
-  auth,
-  signInWithGoogle,
-  handleFirebaseSignInError,
-} from 'firebase/firebase.utils';
+import { auth, handleFirebaseSignInError } from 'firebase/firebase.utils';
 
 // CHILD COMPONENTS
 import FormInput from 'components/form-input/form-input.component';
 import CustumButton from 'components/custom-button/custom-button.component';
 
+// REDUX ACTIONS
+import { googleSignInStart } from 'redux/user/user.actions';
+
+// STYLES
 import { SignInContainer, Title, ButtonsContainer } from './sign-in.styles';
 
 class SignIn extends Component {
@@ -45,6 +47,8 @@ class SignIn extends Component {
 
   render() {
     const { email, password } = this.state;
+    const { googleSignInStart } = this.props;
+
     return (
       <SignInContainer>
         <Title>I have an account</Title>
@@ -72,7 +76,11 @@ class SignIn extends Component {
           />
           <ButtonsContainer>
             <CustumButton type="submit">Sign In</CustumButton>
-            <CustumButton isGoogleSignedIn onClick={signInWithGoogle}>
+            <CustumButton
+              type="button"
+              isGoogleSignedIn
+              onClick={googleSignInStart}
+            >
               Sign In With Google
             </CustumButton>
           </ButtonsContainer>
@@ -82,4 +90,12 @@ class SignIn extends Component {
   }
 }
 
-export default SignIn;
+SignIn.propTypes = {
+  googleSignInStart: PropTypes.func,
+};
+
+const mapDispatchToProps = {
+  googleSignInStart,
+};
+
+export default connect(null, mapDispatchToProps)(SignIn);

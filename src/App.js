@@ -5,7 +5,7 @@ import { createStructuredSelector } from 'reselect';
 import PropTypes from 'prop-types';
 
 // FIREBASE AUTH
-import { auth, createUserProfileDocument } from './firebase/firebase.utils';
+// import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 
 // ROUTER
 import PublicRoute from './routers/publicRoute';
@@ -32,31 +32,26 @@ class App extends Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    const { setCurrentUser } = this.props;
-
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-      if (userAuth) {
-        const userRef = await createUserProfileDocument(userAuth);
-
-        return userRef.onSnapshot(doc => {
-          const userData = doc.data();
-
-          const currentUser = {
-            id: doc.id,
-            ...userData,
-          };
-
-          setCurrentUser(currentUser);
-        });
-      }
-
-      setCurrentUser(userAuth);
-    });
+    // const { setCurrentUser } = this.props;
+    // this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+    //   if (userAuth) {
+    //     const userRef = await createUserProfileDocument(userAuth);
+    //     return userRef.onSnapshot(doc => {
+    //       const userData = doc.data();
+    //       const currentUser = {
+    //         id: doc.id,
+    //         ...userData,
+    //       };
+    //       setCurrentUser(currentUser);
+    //     });
+    //   }
+    //   setCurrentUser(userAuth);
+    // });
     // console.log('test');
   }
 
   componentWillUnmount() {
-    this.unsubscribeFromAuth();
+    // this.unsubscribeFromAuth();
   }
 
   render() {

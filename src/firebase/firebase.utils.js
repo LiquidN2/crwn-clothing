@@ -21,9 +21,9 @@ const auth = firebase.auth();
 const firestore = firebase.firestore();
 
 // SIGN-IN WITH GOOGLE
-const provider = new firebase.auth.GoogleAuthProvider();
-provider.setCustomParameters({ prompt: 'select_account' });
-const signInWithGoogle = async () => await auth.signInWithPopup(provider);
+const googleProvider = new firebase.auth.GoogleAuthProvider();
+googleProvider.setCustomParameters({ prompt: 'select_account' });
+const signInWithGoogle = async () => await auth.signInWithPopup(googleProvider);
 
 /**
  * create user doc in firestore from userAuth (returned when via Google signed in)
@@ -197,6 +197,7 @@ const convertCollectionsSnapshotToMap = async (
 export {
   auth,
   firestore,
+  googleProvider,
   signInWithGoogle,
   createUserProfileDocument,
   handleFirebaseSignInError,
