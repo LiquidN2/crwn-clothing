@@ -2,31 +2,38 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+// REDUX ACTIONS
 import { clearItem, addItem, removeItem } from 'redux/cart/cart.actions';
 
-import './checkout-item.styles.scss';
+// STYLES
+import {
+  CheckoutItemContainer,
+  ImageContainer,
+  Name,
+  Price,
+  Quantity,
+  Arrow,
+  Value,
+  RemoveButton,
+} from './checkout-iten.styles';
 
 const CheckoutItem = ({ cartItem, clearItem, addItem, removeItem }) => {
   return (
-    <div className="checkout-item">
-      <div className="image-container">
+    <CheckoutItemContainer>
+      <ImageContainer>
         <img src={cartItem.imageUrl} alt="item" />
-      </div>
-      <span className="name">{cartItem.name}</span>
-      <span className="quantity">
-        <div className="arrow" onClick={() => removeItem(cartItem.id)}>
-          &#10094;
-        </div>
-        <span className="value">{cartItem.quantity}</span>
-        <div className="arrow" onClick={() => addItem(cartItem)}>
-          &#10095;
-        </div>
-      </span>
-      <span className="price">${cartItem.price}</span>
-      <span className="remove-button" onClick={() => clearItem(cartItem.id)}>
+      </ImageContainer>
+      <Name>{cartItem.name}</Name>
+      <Quantity>
+        <Arrow onClick={() => removeItem(cartItem.id)}>&#10094;</Arrow>
+        <Value>{cartItem.quantity}</Value>
+        <Arrow onClick={() => addItem(cartItem)}>&#10095;</Arrow>
+      </Quantity>
+      <Price>${cartItem.price}</Price>
+      <RemoveButton onClick={() => clearItem(cartItem.id)}>
         &#10005;
-      </span>
-    </div>
+      </RemoveButton>
+    </CheckoutItemContainer>
   );
 };
 
@@ -43,7 +50,4 @@ const mapDispatchToProps = dispatch => ({
   clearItem: itemId => dispatch(clearItem(itemId)),
 });
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(CheckoutItem);
+export default connect(null, mapDispatchToProps)(CheckoutItem);
