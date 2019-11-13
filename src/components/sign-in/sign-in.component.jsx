@@ -10,7 +10,7 @@ import FormInput from 'components/form-input/form-input.component';
 import CustumButton from 'components/custom-button/custom-button.component';
 
 // REDUX ACTIONS
-import { googleSignInStart } from 'redux/user/user.actions';
+import { googleSignInStart, emailSignInStart } from 'redux/user/user.actions';
 
 // STYLES
 import { SignInContainer, Title, ButtonsContainer } from './sign-in.styles';
@@ -35,10 +35,12 @@ class SignIn extends Component {
 
   handleSubmit = async event => {
     event.preventDefault();
+    const { emailSignInStart } = this.props;
     const { email, password } = this.state;
 
     try {
-      await auth.signInWithEmailAndPassword(email, password);
+      // await auth.signInWithEmailAndPassword(email, password);
+      emailSignInStart({ email, password });
       this.setState({ email: '', password: '' });
     } catch (error) {
       handleFirebaseSignInError(error);
@@ -92,10 +94,12 @@ class SignIn extends Component {
 
 SignIn.propTypes = {
   googleSignInStart: PropTypes.func,
+  emailSignInStart: PropTypes.func,
 };
 
 const mapDispatchToProps = {
   googleSignInStart,
+  emailSignInStart,
 };
 
 export default connect(null, mapDispatchToProps)(SignIn);

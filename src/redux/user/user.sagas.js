@@ -8,26 +8,29 @@ import {
 
 import { GOOGLE_SIGN_IN_START, EMAIL_SIGN_IN_START } from './user.types';
 
-import {
-  googleSignInSuccess,
-  googleSignInFailure,
-  emailSignInSuccess,
-  emailSignInFailure,
-} from './user.actions';
+import { signInSuccess, signInFailure } from './user.actions';
 
-function* signInWithGoogle() {
+function* getSnapshotFromUserAuth(userAuth) {
   try {
-    const { user } = yield auth.signInWithPopup(googleProvider);
-    const userRef = yield call(createUserProfileDocument, user);
+    const userRef = yield call(createUserProfileDocument, userAuth);
     const userSnapShot = yield userRef.get();
     const userData = yield userSnapShot.data();
     const currentUser = {
       id: userSnapShot.id,
       ...userData,
     };
-    yield put(googleSignInSuccess(currentUser));
+    yield put(signInSuccess(currentUser));
   } catch (error) {
-    yield put(googleSignInFailure(error.message));
+    yield put(signInFailure(error));
+  }
+}
+
+function* signInWithGoogle() {
+  try {
+    const { user } = yield auth.signInWithPopup(googleProvider);
+    yield getSnapshotFromUserAuth(user);
+  } catch (error) {
+    yield put(signInFailure(error));
   }
 }
 
@@ -35,6 +38,24 @@ function* onGoogleSignInStart() {
   yield takeLatest(GOOGLE_SIGN_IN_START, signInWithGoogle);
 }
 
+function* signInWithEmail(action) {
+  // same action from user.reducer
+  const {
+    emailAndPassword: { email, password },
+  } = action;
+
+  try {
+    const { user } = yield auth.signInWithEmailAndPassword(email, password);
+    yield getSnapshotFromUserAuth(user);
+  } catch (error) {
+    yield put(signInFailure(error));
+  }
+}
+
+function* onEmailSignInStart() {
+  yield takeLatest(EMAIL_SIGN_IN_START, signInWithEmail);
+}
+
 export function* userSagas() {
-  yield all([call(onGoogleSignInStart)]);
+  yield all([call(onGoogleSignInStart), call(onEmailSignInStart)]);
 }
