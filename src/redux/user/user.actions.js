@@ -4,6 +4,7 @@ import {
   EMAIL_SIGN_IN_START,
   SIGN_IN_SUCCESS,
   SIGN_IN_FAILURE,
+  CHECK_USER_SESSION,
 } from './user.types';
 
 export const setCurrentUser = user => ({
@@ -28,4 +29,8 @@ export const signInSuccess = user => ({
 export const signInFailure = error => ({
   type: SIGN_IN_FAILURE,
   error,
+});
+
+export const checkUserSession = () => ({
+  type: CHECK_USER_SESSION,
 });

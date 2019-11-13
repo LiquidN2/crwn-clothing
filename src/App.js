@@ -22,6 +22,7 @@ import NotFound from './pages/not-found/not-found.component';
 import { setCurrentUser } from './redux/user/user.actions';
 
 // REDUX SELECTORS
+import { checkUserSession } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
 import { selectCollectionsForPreview } from './redux/shop/shop.selectors';
 
@@ -32,6 +33,8 @@ class App extends Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
+    const { checkUserSession } = this.props;
+    checkUserSession();
     // const { setCurrentUser } = this.props;
     // this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
     //   if (userAuth) {
@@ -89,6 +92,7 @@ class App extends Component {
 App.propTypes = {
   currentUser: PropTypes.object,
   setCurrentUser: PropTypes.func,
+  checkUserSession: PropTypes.func,
   collectionsArray: PropTypes.array,
 };
 
@@ -100,8 +104,13 @@ const mapStateToProps = createStructuredSelector({
   collectionsArray: selectCollectionsForPreview,
 });
 
-const mapDispatchToProps = dispatch => ({
-  setCurrentUser: user => dispatch(setCurrentUser(user)),
-});
+// const mapDispatchToProps = dispatch => ({
+//   setCurrentUser: user => dispatch(setCurrentUser(user)),
+// });
+
+const mapDispatchToProps = {
+  setCurrentUser,
+  checkUserSession,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

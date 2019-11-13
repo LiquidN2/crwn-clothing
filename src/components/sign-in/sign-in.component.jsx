@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // FIREBASE AUTH
-import { auth, handleFirebaseSignInError } from 'firebase/firebase.utils';
+import { handleFirebaseSignInError } from 'firebase/firebase.utils';
 
 // CHILD COMPONENTS
 import FormInput from 'components/form-input/form-input.component';

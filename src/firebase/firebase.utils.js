@@ -113,6 +113,18 @@ const handleFirebaseSignUpError = error => {
   alert(errorMessage);
 };
 
+const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged(
+      userAuth => {
+        unsubscribe();
+        resolve(userAuth);
+      },
+      error => reject(error)
+    );
+  });
+};
+
 // items in collection as array
 const addCollectionAndItems = async (collectionKey, objectsToAdd) => {
   console.log('Adding collections to firestore...');
@@ -200,6 +212,7 @@ export {
   googleProvider,
   signInWithGoogle,
   createUserProfileDocument,
+  getCurrentUser,
   handleFirebaseSignInError,
   handleFirebaseSignUpError,
   addCollectionAndItems,
