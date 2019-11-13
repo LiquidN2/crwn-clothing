@@ -8,13 +8,15 @@ import CollectionsOverviewContainer from 'components/collections-overview/collec
 import CollectionPageContainer from 'pages/collection/collection.container';
 
 // REDUX ACTIONS
-import { fetchCollectionsAsync } from 'redux/shop/shop.actions';
+// import { fetchCollectionsAsync } from 'redux/shop/shop.actions';
+import { fetchCollectionsStart } from 'redux/shop/shop.actions';
 
 class Shop extends Component {
   unsubscribeFromSnapshot = null;
 
   async componentDidMount() {
-    this.props.fetchCollectionsAsync();
+    // this.props.fetchCollectionsAsync();
+    this.props.fetchCollectionsStart();
   }
 
   render() {
@@ -40,10 +42,12 @@ class Shop extends Component {
 Shop.propTypes = {
   match: PropTypes.object,
   fetchCollectionsAsync: PropTypes.func,
+  fetchCollectionsStart: PropTypes.func,
 };
 
 const mapDispatchToProps = {
-  fetchCollectionsAsync,
+  // fetchCollectionsAsync,
+  fetchCollectionsStart,
 };
 
 export default connect(null, mapDispatchToProps)(Shop);

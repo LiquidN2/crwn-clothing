@@ -11,16 +11,16 @@ import {
   FETCH_COLLECTIONS_FAILURE,
 } from './shop.types';
 
-const fetchCollectionsStart = () => ({
+export const fetchCollectionsStart = () => ({
   type: FETCH_COLLECTIONS_START,
 });
 
-const fetchCollectionsFail = errorMsg => ({
+export const fetchCollectionsFail = errorMsg => ({
   type: FETCH_COLLECTIONS_FAILURE,
   errorMsg,
 });
 
-const fetchCollectionsSuccess = collectionsMap => ({
+export const fetchCollectionsSuccess = collectionsMap => ({
   type: FETCH_COLLECTIONS_SUCCESS,
   collectionsMap,
 });
@@ -39,7 +39,7 @@ export const fetchCollectionsAsync = () => async dispatch => {
 
     dispatch(fetchCollectionsSuccess(collectionsMap));
   } catch (error) {
-    dispatch(fetchCollectionsFail(error));
+    dispatch(fetchCollectionsFail(error.message));
   }
 
   // FIRESTORE OBSERVER
@@ -53,6 +53,6 @@ export const fetchCollectionsAsync = () => async dispatch => {
 
   //   dispatch(fetchCollectionsSuccess(collectionsMap));
   // }, error => {
-  //   dispatch(fetchCollectionsFail(error));
+  //   dispatch(fetchCollectionsFail(error.message));
   // });
 };

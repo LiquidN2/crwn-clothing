@@ -136,7 +136,4 @@ const mapDispatchToProps = dispatch => ({
   hideCart: () => dispatch(hideCart()),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
