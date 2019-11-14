@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -11,34 +11,30 @@ import { signUpStart } from 'redux/user/user.actions';
 
 // STYLES
 import { SignUpContainer, Title, ButtonsContainer } from './sign-up.styles';
-// import './sign-up.styles.scss';
 
-class SignUp extends Component {
-  constructor(props) {
-    super(props);
+const SignUp = ({ signUpStart }) => {
+  const [userCredentials, setUserCredentials] = useState({
+    displayName: '',
+    email: '',
+    password: '',
+    passwordConfirm: '',
+  });
 
-    this.state = {
-      displayName: '',
-      email: '',
-      password: '',
-      passwordConfirm: '',
-    };
-  }
+  const { displayName, email, password, passwordConfirm } = userCredentials;
 
-  handleInputChange = event => {
+  const handleInputChange = event => {
     const { target } = event;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const { name } = target;
 
-    this.setState({ [name]: value });
+    setUserCredentials(userCredentials => ({
+      ...userCredentials,
+      [name]: value,
+    }));
   };
 
-  handleSubmit = async event => {
+  const handleSubmit = async event => {
     event.preventDefault();
-
-    const { displayName, email, password, passwordConfirm } = this.state;
-    const { signUpStart } = this.props;
-
     if (password !== passwordConfirm) {
       return alert("Passwords don't match");
     }
@@ -46,62 +42,58 @@ class SignUp extends Component {
     signUpStart({ email, password, displayName });
   };
 
-  render() {
-    const { displayName, email, password, passwordConfirm } = this.state;
+  return (
+    <SignUpContainer>
+      <Title>I do not have an account</Title>
+      <span>Sign up with your email and password</span>
 
-    return (
-      <SignUpContainer>
-        <Title>I do not have an account</Title>
-        <span>Sign up with your email and password</span>
+      <form className="sign-up-form" onSubmit={handleSubmit}>
+        <FormInput
+          type="text"
+          id="displayName-sign-up"
+          name="displayName"
+          value={displayName}
+          onChange={handleInputChange}
+          label="Display Name"
+          required
+        />
 
-        <form className="sign-up-form" onSubmit={this.handleSubmit}>
-          <FormInput
-            type="text"
-            id="displayName-sign-up"
-            name="displayName"
-            value={displayName}
-            onChange={this.handleInputChange}
-            label="Display Name"
-            required
-          />
+        <FormInput
+          type="email"
+          id="email-sign-up"
+          name="email"
+          value={email}
+          onChange={handleInputChange}
+          label="Email"
+          required
+        />
 
-          <FormInput
-            type="email"
-            id="email-sign-up"
-            name="email"
-            value={email}
-            onChange={this.handleInputChange}
-            label="Email"
-            required
-          />
+        <FormInput
+          type="password"
+          id="password-sign-up"
+          name="password"
+          value={password}
+          onChange={handleInputChange}
+          label="Password"
+          required
+        />
 
-          <FormInput
-            type="password"
-            id="password-sign-up"
-            name="password"
-            value={password}
-            onChange={this.handleInputChange}
-            label="Password"
-            required
-          />
-
-          <FormInput
-            type="password"
-            id="password-confirm-sign-up"
-            name="passwordConfirm"
-            value={passwordConfirm}
-            onChange={this.handleInputChange}
-            label="Confirm Password"
-            required
-          />
-          <ButtonsContainer>
-            <CustumButton type="submit">Sign In</CustumButton>
-          </ButtonsContainer>
-        </form>
-      </SignUpContainer>
-    );
-  }
-}
+        <FormInput
+          type="password"
+          id="password-confirm-sign-up"
+          name="passwordConfirm"
+          value={passwordConfirm}
+          onChange={handleInputChange}
+          label="Confirm Password"
+          required
+        />
+        <ButtonsContainer>
+          <CustumButton type="submit">Sign In</CustumButton>
+        </ButtonsContainer>
+      </form>
+    </SignUpContainer>
+  );
+};
 
 SignUp.propTypes = {
   signUpStart: PropTypes.func,
