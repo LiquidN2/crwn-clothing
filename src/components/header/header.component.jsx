@@ -4,9 +4,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-// FIREBASE AUTH
-import { auth } from 'firebase/firebase.utils';
-
 // CHILD COMPONENTS
 import CartIcon from 'components/cart-icon/cart-icon.component';
 import CartDropdown from 'components/cart-dropdown/cart-dropdown.component';
@@ -15,7 +12,9 @@ import CartDropdown from 'components/cart-dropdown/cart-dropdown.component';
 import { selectCurrentUser } from 'redux/user/user.selectors';
 import { selectCartHidden } from 'redux/cart/cart.selectors';
 
+// REDUX ACTIONS
 import { hideCart } from 'redux/cart/cart.actions';
+import { signOutStart } from 'redux/user/user.actions';
 
 // STYLES
 import { ReactComponent as Logo } from 'assets/crown.svg';
@@ -25,38 +24,6 @@ import {
   OptionsContainer,
   OptionLink,
 } from './header.styles';
-
-// const Header = ({ currentUser, cartDropDownHidden }) => (
-//   <div className="header">
-//     <Link className="logo-container" to="/">
-//       <Logo className="logo" />
-//     </Link>
-
-//     <div className="options">
-//       <Link className="option" to="/shop">
-//         SHOP
-//       </Link>
-
-//       <Link className="option" to="/contact">
-//         CONTACT
-//       </Link>
-
-//       {currentUser ? (
-//         <div className="option" onClick={() => auth.signOut()}>
-//           SIGN OUT
-//         </div>
-//       ) : (
-//         <Link className="option" to="/signin">
-//           SIGN IN
-//         </Link>
-//       )}
-
-//       <CartIcon />
-//     </div>
-
-//     {!cartDropDownHidden ? <CartDropdown /> : null}
-//   </div>
-// );
 
 class Header extends React.Component {
   constructor(props) {
@@ -69,15 +36,7 @@ class Header extends React.Component {
     };
   }
 
-  componentDidMount() {
-    document.addEventListener('mousedown', this.handleClick, false);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleClick, false);
-  }
-
-  handleClickOutside = event => {
+  handleClickOutside = () => {
     this.props.hideCart();
   };
 
@@ -87,7 +46,16 @@ class Header extends React.Component {
     this.handleClickOutside();
   };
 
+  componentDidMount() {
+    document.addEventListener('mousedown', this.handleClick, false);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClick, false);
+  }
+
   render() {
+    const { currentUser, cartDropDownHidden, signOutStart } = this.props;
     return (
       <HeaderContainer>
         <LogoContainer to="/">
@@ -99,8 +67,8 @@ class Header extends React.Component {
 
           <OptionLink to="/contact">CONTACT</OptionLink>
 
-          {this.props.currentUser ? (
-            <OptionLink as="div" to="/" onClick={() => auth.signOut()}>
+          {currentUser ? (
+            <OptionLink as="div" to="/" onClick={signOutStart}>
               SIGN OUT
             </OptionLink>
           ) : (
@@ -109,7 +77,7 @@ class Header extends React.Component {
 
           <div ref={this.nodeRef}>
             <CartIcon />
-            {!this.props.cartDropDownHidden ? <CartDropdown /> : null}
+            {!cartDropDownHidden ? <CartDropdown /> : null}
           </div>
         </OptionsContainer>
       </HeaderContainer>
@@ -121,6 +89,7 @@ Header.propTypes = {
   currentUser: PropTypes.object,
   cartDropDownHidden: PropTypes.bool,
   hideCart: PropTypes.func,
+  signOutStart: PropTypes.func,
 };
 
 // const mapStateToProps = state => ({
@@ -132,8 +101,9 @@ const mapStateToProps = createStructuredSelector({
   cartDropDownHidden: selectCartHidden,
 });
 
-const mapDispatchToProps = dispatch => ({
-  hideCart: () => dispatch(hideCart()),
-});
+const mapDispatchToProps = {
+  hideCart,
+  signOutStart,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
