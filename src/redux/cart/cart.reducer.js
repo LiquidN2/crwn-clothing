@@ -4,6 +4,7 @@ import {
   ADD_ITEM,
   REMOVE_ITEM,
   CLEAR_ITEM,
+  CLEAR_CART,
 } from './cart.types';
 
 import {
@@ -47,6 +48,12 @@ const cartReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         items: clearItemFromCart(state.items, action.itemId),
+      };
+
+    case CLEAR_CART:
+      return {
+        ...state,
+        items: [],
       };
 
     default:
