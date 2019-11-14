@@ -10,6 +10,8 @@ import {
 
 // REDUX ACTION TYPES
 import {
+  SIGN_UP_START,
+  SIGN_UP_SUCCESS,
   GOOGLE_SIGN_IN_START,
   EMAIL_SIGN_IN_START,
   CHECK_USER_SESSION,
@@ -18,15 +20,21 @@ import {
 
 // REDUX ACTIONS
 import {
+  signUpSuccess,
+  signUpFailure,
   signInSuccess,
   signInFailure,
   signOutSuccess,
   signOutFailure,
 } from './user.actions';
 
-function* getSnapshotFromUserAuth(userAuth) {
+function* getSnapshotFromUserAuth(userAuth, additionalData) {
   try {
-    const userRef = yield call(createUserProfileDocument, userAuth);
+    const userRef = yield call(
+      createUserProfileDocument,
+      userAuth,
+      additionalData
+    );
     const userSnapShot = yield userRef.get();
     const userData = yield userSnapShot.data();
     const currentUser = {
@@ -72,6 +80,34 @@ function* onEmailSignInStart() {
   yield takeLatest(EMAIL_SIGN_IN_START, signInWithEmail);
 }
 
+// SIGN UP
+function* signUp(action) {
+  const {
+    userCredentials: { email, password, displayName },
+  } = action;
+
+  try {
+    const { user } = yield auth.createUserWithEmailAndPassword(email, password);
+
+    yield put(signUpSuccess(user, { displayName }));
+  } catch (error) {
+    yield put(signUpFailure(error));
+  }
+}
+
+function* onSignUp() {
+  yield takeLatest(SIGN_UP_START, signUp);
+}
+
+function* signInAfterSignUp(action) {
+  const { user, additionalData } = action;
+  yield getSnapshotFromUserAuth(user, additionalData);
+}
+
+function* onSignUpSuccess() {
+  yield takeLatest(SIGN_UP_SUCCESS, signInAfterSignUp);
+}
+
 // USER SESSION
 function* isUserAuthenticated() {
   try {
@@ -107,5 +143,7 @@ export function* userSagas() {
     call(onEmailSignInStart),
     call(onCheckUserSession),
     call(onSignOutStart),
+    call(onSignUp),
+    call(onSignUpSuccess),
   ]);
 }

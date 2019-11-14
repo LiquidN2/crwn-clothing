@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-// FIREBASE AUTH
-import { handleFirebaseSignInError } from 'firebase/firebase.utils';
-
 // CHILD COMPONENTS
 import FormInput from 'components/form-input/form-input.component';
 import CustumButton from 'components/custom-button/custom-button.component';
@@ -38,13 +35,8 @@ class SignIn extends Component {
     const { emailSignInStart } = this.props;
     const { email, password } = this.state;
 
-    try {
-      // await auth.signInWithEmailAndPassword(email, password);
-      emailSignInStart({ email, password });
-      this.setState({ email: '', password: '' });
-    } catch (error) {
-      handleFirebaseSignInError(error);
-    }
+    emailSignInStart({ email, password });
+    this.setState({ email: '', password: '' });
   };
 
   render() {
