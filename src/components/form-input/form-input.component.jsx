@@ -8,10 +8,10 @@ import {
   StyledFormInput,
 } from './form-input.styles';
 
-const FormInput = ({ handleChange, label, id, ...rest }) => {
+const FormInput = ({ label, id, ...rest }) => {
   return (
     <GroupContainer>
-      <StyledFormInput onChange={handleChange} id={id} {...rest} />
+      <StyledFormInput id={id} {...rest} />
       {label ? (
         <StyledFormInputLabel shrink={rest.value.length} htmlFor={id}>
           {label}
@@ -22,7 +22,6 @@ const FormInput = ({ handleChange, label, id, ...rest }) => {
 };
 
 FormInput.propTypes = {
-  handleChange: PropTypes.func,
   label: PropTypes.string,
   id: PropTypes.string,
 };

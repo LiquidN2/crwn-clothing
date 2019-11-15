@@ -29,7 +29,6 @@ const CollectionPage = ({ collection: { title, items } }) => {
 };
 
 CollectionPage.propTypes = {
-  match: PropTypes.object,
   collection: PropTypes.object,
 };
 
