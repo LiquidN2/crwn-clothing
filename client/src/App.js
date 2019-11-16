@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 
 // ROUTER
@@ -25,6 +26,17 @@ import './App.scss';
 const App = ({ currentUser, checkUserSession }) => {
   useEffect(() => {
     checkUserSession();
+
+    const testAsync = async () => {
+      try {
+        const res = await axios.get('test');
+        console.log(res);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    testAsync();
   }, [checkUserSession]);
 
   return (
