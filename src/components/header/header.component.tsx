@@ -1,13 +1,13 @@
 import './header.styles.scss';
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import type { User } from 'firebase/auth';
+import { UserType } from '../../models/User';
 import { signOutAsync } from '../../firebase/firebase.utils';
 
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 
 interface HeaderProps {
-  currentUser: User | null;
+  currentUser: UserType | null;
 }
 
 const Header: React.FC<HeaderProps> = ({ currentUser }) => {

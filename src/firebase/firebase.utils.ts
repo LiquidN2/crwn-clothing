@@ -9,7 +9,19 @@ import {
   signInWithPopup,
   signOut,
   GoogleAuthProvider,
+  User,
 } from 'firebase/auth';
+
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  doc,
+  getDoc,
+  setDoc,
+} from 'firebase/firestore';
+
+import { UserType } from '../models/User';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -24,9 +36,11 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
-// Auth
 export const auth = getAuth();
+export const db = getFirestore();
+
+// ------------------------------------------
+// AUTHENTICATION
 
 // Google Sign In
 const googleProvider = new GoogleAuthProvider();
@@ -36,3 +50,43 @@ export const signInWithGoogle = async () =>
   await signInWithPopup(auth, googleProvider);
 
 export const signOutAsync = async () => await signOut(auth);
+
+export const createUserProfileDocument = async (
+  userAuth: User | null,
+  additionalData?: { [key: string]: any }
+) => {
+  try {
+    if (!userAuth) throw 'No user auth object';
+
+    // check if user exists in firestore
+    const userDocRef = doc(db, 'users', userAuth.uid);
+    const userDocSnapshot = await getDoc(userDocRef);
+
+    // if exists, return the userDocRef
+    if (userDocSnapshot.exists()) return userDocRef;
+
+    // if not, create user in firestore and then return the userDocRef
+    const { displayName, email } = userAuth;
+    const createdAt = new Date();
+    const docData = { displayName, email, createdAt, ...additionalData };
+    return setDoc(userDocRef, docData);
+  } catch (err: any) {
+    console.log('unable to create user', err);
+  }
+};
+
+// ------------------------------------------
+// FIRESTORE
+export const getCollections = async () => {
+  const snapshot = await getDocs(collection(db, 'collections'));
+  // snapshot.forEach(doc => console.log(doc.data()));
+};
+
+export const getUserById = async (uid: string) => {
+  const userDocRef = doc(db, 'users', uid);
+  const userDocSnapshot = await getDoc(userDocRef);
+  return {
+    id: userDocSnapshot.id,
+    ...userDocSnapshot.data(),
+  };
+};

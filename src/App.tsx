@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import type { User } from 'firebase/auth';
-import { auth } from './firebase/firebase.utils';
+import {
+  auth,
+  getCollections,
+  createUserProfileDocument,
+  getUserById,
+} from './firebase/firebase.utils';
 
 import './App.scss';
 import Header from './components/header/header.component';
@@ -10,25 +15,36 @@ import ShopPage from './pages/shop/shop.component';
 import ContactPage from './pages/contact/contact.component';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
 
+import { UserType } from './models/User';
+
 const App: React.FC = () => {
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [currentUser, setCurrentUser] = useState<UserType | null>(null);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      console.log(user);
-
+    // subscribe to Firebase auth state change
+    const unsubscribe = auth.onAuthStateChanged((user: User | null) => {
       if (user) {
-        setCurrentUser(user);
+        createUserProfileDocument(user)
+          .then((userDocRef: any) => {
+            return getUserById(userDocRef.id);
+          })
+          .then(userData => setCurrentUser(userData));
       } else {
         setCurrentUser(null);
       }
     });
 
-    // unsubscribe up on component unmount
+    // unsubscribe when component unmount
     return () => {
       unsubscribe();
     };
   }, []);
+
+  useEffect(() => {
+    console.log(currentUser);
+  }, [currentUser]);
+
+  // getCollections().then();
 
   return (
     <div>
