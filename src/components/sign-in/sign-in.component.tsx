@@ -4,6 +4,8 @@ import React, { FormEventHandler, useState } from 'react';
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
 
+import { signInWithGoogle } from '../../firebase/firebase.utils';
+
 const SignIn: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -36,7 +38,16 @@ const SignIn: React.FC = () => {
           required={true}
         />
 
-        <CustomButton type="submit">Submit</CustomButton>
+        <div className="button-group">
+          <CustomButton type="submit">Sign In</CustomButton>
+          <CustomButton
+            type="button"
+            isGoogleSignIn={true}
+            handleClick={() => signInWithGoogle()}
+          >
+            Sign In with Google
+          </CustomButton>
+        </div>
       </form>
     </div>
   );

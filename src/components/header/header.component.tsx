@@ -1,15 +1,16 @@
 import './header.styles.scss';
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import type { User } from 'firebase/auth';
+import { signOutAsync } from '../../firebase/firebase.utils';
+
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 
-const NAV_ITEMS: { title: string; url: string }[] = [
-  { title: 'shop', url: 'shop' },
-  { title: 'contact', url: 'contact' },
-  { title: 'sign in', url: 'signin' },
-];
+interface HeaderProps {
+  currentUser: User | null;
+}
 
-const Header: React.FC = () => {
+const Header: React.FC<HeaderProps> = ({ currentUser }) => {
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     isActive ? 'nav__link nav__link--active' : 'nav__link';
 
@@ -19,11 +20,21 @@ const Header: React.FC = () => {
         <Logo className="logo" />
       </Link>
       <nav className="nav">
-        {NAV_ITEMS.map((link, index) => (
-          <NavLink key={index} className={navLinkClass} to={`/${link.url}`}>
-            {link.title}
+        <NavLink to="/shop" className={navLinkClass}>
+          Shop
+        </NavLink>
+        <NavLink to="/contact" className={navLinkClass}>
+          Contact
+        </NavLink>
+        {currentUser ? (
+          <button className="nav__link" onClick={() => signOutAsync()}>
+            Sign out
+          </button>
+        ) : (
+          <NavLink to="/signin" className={navLinkClass}>
+            Sign In
           </NavLink>
-        ))}
+        )}
       </nav>
     </header>
   );

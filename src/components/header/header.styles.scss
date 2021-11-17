@@ -27,4 +27,18 @@
       }
     }
   }
+
+  button.nav__link {
+    background-color: transparent;
+    border: none;
+    font-family: inherit;
+    font-weight: bold;
+    font-size: 16px;
+    transition: color 0.2s;
+
+    &:hover {
+      cursor: pointer;
+      color: #595959;
+    }
+  }
 }
