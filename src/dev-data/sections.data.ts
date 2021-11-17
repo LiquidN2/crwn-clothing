@@ -1,4 +1,4 @@
-import { MenuItemProps } from '../src/components/menu-item/menu-item.component';
+import { MenuItemProps } from '../components/menu-item/menu-item.component';
 
 /* Used as starting data for Directory */
 

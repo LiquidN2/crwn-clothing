@@ -1,6 +1,7 @@
-/* Used as starting data for ShopPage */
+import { CollectionPreviewProps } from '../components/collection-preview/collection-preview.component';
 
-const SHOP_DATA = [
+/* Used as starting data for ShopPage */
+const SHOP_DATA: CollectionPreviewProps[] = [
   {
     id: 1,
     title: 'Hats',
