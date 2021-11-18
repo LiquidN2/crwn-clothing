@@ -4,7 +4,7 @@ import React, { FormEventHandler, useState } from 'react';
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
 
-import { signInWithGoogle, signIn } from '../../firebase/firebase.utils';
+import { signInWithGoogle, signIn } from '../../firebase/firebase.auth';
 
 const SignIn: React.FC = () => {
   const [email, setEmail] = useState('');

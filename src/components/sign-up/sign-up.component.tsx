@@ -4,7 +4,7 @@ import React, { FormEventHandler, useState } from 'react';
 import CustomButton from '../custom-button/custom-button.component';
 import FormInput from '../form-input/form-input.component';
 
-import { signUp } from '../../firebase/firebase.utils';
+import { signUp } from '../../firebase/firebase.auth';
 
 const SignUp: React.FC = () => {
   const [displayName, setDisplayName] = useState('');
