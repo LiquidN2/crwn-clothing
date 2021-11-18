@@ -1,15 +1,15 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 
-import type { UserDoc } from '../models/User';
+import { useAppSelector } from '../hooks';
 
 interface PublicRouteProps {
-  currentUser: UserDoc | null;
   children: JSX.Element;
 }
 
-const PublicRoute = ({ currentUser, children }: PublicRouteProps) => {
+const PublicRoute = ({ children }: PublicRouteProps): JSX.Element => {
   const location = useLocation();
+  const { currentUser } = useAppSelector(state => state.user);
 
   return currentUser ? (
     <Navigate to="/" state={{ from: location }} />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import type { User } from 'firebase/auth';
 
@@ -19,18 +19,16 @@ import ContactPage from './pages/contact/contact.component';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
 import PlaygroundPage from './pages/playground/playground.component';
 
-import { UserDoc } from './models/User';
+import { useActions } from './hooks';
 
 const App: React.FC = () => {
-  const [currentUser, setCurrentUser] = useState<UserDoc | null>(null);
+  const { SetCurrentUser } = useActions();
 
   useEffect(() => {
     // subscribe to Firebase auth state change
     return auth.onAuthStateChanged(async (user: User | null) => {
-      console.log('auth state changed');
-
       if (!user) {
-        setCurrentUser(null);
+        SetCurrentUser(null);
         return;
       }
 
@@ -39,22 +37,20 @@ const App: React.FC = () => {
         if (!userDocRef) throw Error('unable to get user doc ref');
         const userData = await getUserById(userDocRef.id);
         if (!userData) throw Error('unable to fetch user data');
-        setCurrentUser(userData);
+        // console.log(userData.createdAt.toDate());
+        SetCurrentUser({
+          ...userData,
+          createdAt: userData.createdAt.toLocaleString(),
+        });
       } catch (err) {
         console.error(err);
       }
     });
   }, []);
 
-  useEffect(() => {
-    console.log('currentUser', currentUser);
-  }, [currentUser]);
-
-  // getCollections().then();
-
   return (
     <div>
-      <Header currentUser={currentUser} />
+      <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="shop" element={<ShopPage />} />
@@ -62,7 +58,7 @@ const App: React.FC = () => {
         <Route
           path="signin"
           element={
-            <PublicRoute currentUser={currentUser}>
+            <PublicRoute>
               <SignInAndSignUpPage />
             </PublicRoute>
           }

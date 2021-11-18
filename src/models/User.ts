@@ -5,16 +5,6 @@ import {
   SnapshotOptions,
 } from 'firebase/firestore';
 
-export interface UserDocData {
-  id: string;
-  email?: string;
-  displayName?: string;
-  createdAt?: Date;
-  emailVerified?: boolean;
-  phoneNumber?: string;
-  photoURL?: string;
-}
-
 class UserDoc {
   constructor(
     readonly email: string,
@@ -44,10 +34,11 @@ const userConverter = {
     options: SnapshotOptions
   ): UserDoc {
     const data = snapshot.data(options)!;
+
     return new UserDoc(
       data.email,
       data.displayName,
-      data.createdAt,
+      data.createdAt.toDate(),
       data.emailVerified,
       data.phoneNumber,
       data.photoURL,

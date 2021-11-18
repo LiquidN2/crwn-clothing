@@ -6,11 +6,15 @@ import { signOutAsync } from '../../firebase/firebase.auth';
 
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 
-interface HeaderProps {
-  currentUser: UserDoc | null;
-}
+import { useAppSelector } from '../../hooks';
 
-const Header: React.FC<HeaderProps> = ({ currentUser }) => {
+// interface HeaderProps {
+//   currentUser: UserDoc | null;
+// }
+
+const Header: React.FC = () => {
+  const { currentUser } = useAppSelector(state => state.user);
+
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     isActive ? 'nav__link nav__link--active' : 'nav__link';
 
