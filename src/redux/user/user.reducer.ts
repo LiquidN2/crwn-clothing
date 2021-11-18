@@ -1,5 +1,5 @@
 import { ActionType } from './user.actionType';
-import { UserAction } from './user.action';
+import { UserActions } from './user.actions';
 
 export interface UserType {
   email: string;
@@ -21,8 +21,8 @@ const INITIAL_STATE = {
 
 export const userReducer = (
   state: UserState = INITIAL_STATE,
-  action: UserAction
-) => {
+  action: UserActions
+): UserState => {
   switch (action.type) {
     case ActionType.SET_CURRENT_USER:
       return {

@@ -7,7 +7,7 @@ interface SetCurrentUserAction {
   payload: UserType | null;
 }
 
-export type UserAction = SetCurrentUserAction;
+export type UserActions = SetCurrentUserAction;
 
 export const SetCurrentUser = (
   user: UserType | null
