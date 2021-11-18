@@ -1,6 +1,5 @@
 import { ActionType } from './user.actionType';
 import { UserAction } from './user.action';
-import { UserDoc } from '../../models/User';
 
 export interface UserType {
   email: string;

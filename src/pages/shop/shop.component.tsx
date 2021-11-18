@@ -5,8 +5,7 @@ import CollectionPreview, {
 } from '../../components/collection-preview/collection-preview.component';
 
 const ShopPage: React.FC = () => {
-  const [collections, setCollections] =
-    useState<CollectionPreviewProps[]>(SHOP_DATA);
+  const [collections] = useState<CollectionPreviewProps[]>(SHOP_DATA);
 
   return (
     <div className="shop-page">

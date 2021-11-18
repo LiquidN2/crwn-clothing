@@ -1,16 +1,11 @@
 import './header.styles.scss';
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { UserDoc } from '../../models/User';
 import { signOutAsync } from '../../firebase/firebase.auth';
 
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 
 import { useAppSelector } from '../../hooks';
-
-// interface HeaderProps {
-//   currentUser: UserDoc | null;
-// }
 
 const Header: React.FC = () => {
   const { currentUser } = useAppSelector(state => state.user);

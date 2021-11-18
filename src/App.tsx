@@ -35,9 +35,10 @@ const App: React.FC = () => {
       try {
         const userDocRef = await createUserProfileDocument(user);
         if (!userDocRef) throw Error('unable to get user doc ref');
+
         const userData = await getUserById(userDocRef.id);
         if (!userData) throw Error('unable to fetch user data');
-        // console.log(userData.createdAt.toDate());
+
         SetCurrentUser({
           ...userData,
           createdAt: userData.createdAt.toLocaleString(),
@@ -46,7 +47,7 @@ const App: React.FC = () => {
         console.error(err);
       }
     });
-  }, []);
+  }, [SetCurrentUser]);
 
   return (
     <div>
