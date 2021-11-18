@@ -4,6 +4,7 @@ import React, { ChangeEventHandler } from 'react';
 interface FormInputProps {
   label: string;
   handleChange: ChangeEventHandler<HTMLInputElement>;
+  value?: string;
   type: string;
   id?: string;
   name?: string;
@@ -21,7 +22,7 @@ const FormInput: React.FC<FormInputProps> = ({
       <label
         htmlFor={otherProps.id ? otherProps.id : ''}
         className={`${
-          Object.entries(otherProps).length ? 'shrink' : ''
+          otherProps.value?.length ? 'shrink' : ''
         } form-input-label`}
       >
         {label}

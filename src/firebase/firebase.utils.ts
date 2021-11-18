@@ -21,7 +21,7 @@ import {
   setDoc,
 } from 'firebase/firestore';
 
-import { UserType } from '../models/User';
+// import type { UserDocData } from '../models/User';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -35,43 +35,82 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 export const auth = getAuth();
 export const db = getFirestore();
 
 // ------------------------------------------
 // AUTHENTICATION
 
-// Google Sign In
+// Sign In & Sign out
 const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: 'select_account' });
 
 export const signInWithGoogle = async () =>
   await signInWithPopup(auth, googleProvider);
 
+export const signIn = async ({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) => {
+  await signInWithEmailAndPassword(auth, email, password);
+};
+
 export const signOutAsync = async () => await signOut(auth);
 
+// Create new user in firestore & return user doc ref
 export const createUserProfileDocument = async (
   userAuth: User | null,
   additionalData?: { [key: string]: any }
 ) => {
   try {
-    if (!userAuth) throw 'No user auth object';
+    if (!userAuth) throw Error('User Auth is not defined');
 
     // check if user exists in firestore
     const userDocRef = doc(db, 'users', userAuth.uid);
     const userDocSnapshot = await getDoc(userDocRef);
 
-    // if exists, return the userDocRef
-    if (userDocSnapshot.exists()) return userDocRef;
+    // create user in firestore if not existing
+    if (!userDocSnapshot.exists()) {
+      console.log('creating user in firestore');
+      // if not, create user in firestore and then return the userDocRef
+      const { displayName, email } = userAuth;
+      const createdAt = new Date();
+      const docData = { displayName, email, createdAt, ...additionalData };
+      await setDoc(userDocRef, docData);
+    }
 
-    // if not, create user in firestore and then return the userDocRef
-    const { displayName, email } = userAuth;
-    const createdAt = new Date();
-    const docData = { displayName, email, createdAt, ...additionalData };
-    return setDoc(userDocRef, docData);
+    return userDocRef;
   } catch (err: any) {
     console.log('unable to create user', err);
+  }
+};
+
+// SignUP
+export const signUp = async ({
+  email,
+  password,
+  displayName,
+}: {
+  email: string;
+  password: string;
+  displayName: string;
+}) => {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    const { user } = userCredential;
+
+    await createUserProfileDocument(user, { displayName });
+  } catch (err) {
+    throw err;
   }
 };
 
@@ -79,12 +118,15 @@ export const createUserProfileDocument = async (
 // FIRESTORE
 export const getCollections = async () => {
   const snapshot = await getDocs(collection(db, 'collections'));
-  // snapshot.forEach(doc => console.log(doc.data()));
+  snapshot.forEach(doc => console.log(doc.data()));
 };
 
 export const getUserById = async (uid: string) => {
   const userDocRef = doc(db, 'users', uid);
   const userDocSnapshot = await getDoc(userDocRef);
+
+  if (!userDocSnapshot.exists()) return null;
+
   return {
     id: userDocSnapshot.id,
     ...userDocSnapshot.data(),

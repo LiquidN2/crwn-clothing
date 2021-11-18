@@ -4,7 +4,7 @@ import React, { FormEventHandler, useState } from 'react';
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
 
-import { signInWithGoogle } from '../../firebase/firebase.utils';
+import { signInWithGoogle, signIn } from '../../firebase/firebase.utils';
 
 const SignIn: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -12,29 +12,37 @@ const SignIn: React.FC = () => {
 
   const onSubmit: FormEventHandler = e => {
     e.preventDefault();
-    console.log(email, password);
+
+    const formData = {
+      email: email.trim(),
+      password: password.trim(),
+    };
+
+    signIn(formData).then();
   };
 
   return (
     <div className="sign-in">
-      <h2>I already have an account</h2>
-      <span>Sign in with your email and password</span>
+      <h2 className="title">I already have an account</h2>
+      <span>Sign in with your email & password</span>
       <form onSubmit={onSubmit}>
         <FormInput
           label="email"
+          value={email}
           handleChange={e => setEmail(e.currentTarget.value)}
           type="email"
-          id="email"
-          name="email"
+          id="signin-email"
+          name="signin-email"
           required={true}
         />
 
         <FormInput
           label="password"
+          value={password}
           handleChange={e => setPassword(e.currentTarget.value)}
           type="password"
-          id="password"
-          name="password"
+          id="signin-password"
+          name="signin-password"
           required={true}
         />
 

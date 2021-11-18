@@ -1,4 +1,4 @@
-export interface UserType {
+export interface UserDocData {
   id: string;
   email?: string;
   displayName?: string;
