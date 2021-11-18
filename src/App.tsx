@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import type { User } from 'firebase/auth';
+
+import { auth } from './firebase/firebase.auth';
+
 import {
-  auth,
-  // getCollections,
   createUserProfileDocument,
   getUserById,
-} from './firebase/firebase.utils';
+} from './firebase/firebase.firestore';
 
 import './App.scss';
 import Header from './components/header/header.component';
@@ -16,11 +17,12 @@ import HomePage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop/shop.component';
 import ContactPage from './pages/contact/contact.component';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
+import PlaygroundPage from './pages/playground/playground.component';
 
-import { UserDocData } from './models/User';
+import { UserDoc } from './models/User';
 
 const App: React.FC = () => {
-  const [currentUser, setCurrentUser] = useState<UserDocData | null>(null);
+  const [currentUser, setCurrentUser] = useState<UserDoc | null>(null);
 
   useEffect(() => {
     // subscribe to Firebase auth state change
@@ -65,6 +67,7 @@ const App: React.FC = () => {
             </PublicRoute>
           }
         />
+        <Route path="playground" element={<PlaygroundPage />} />
         <Route
           path="*"
           element={

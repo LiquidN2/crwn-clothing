@@ -1,13 +1,13 @@
 import './header.styles.scss';
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { UserDocData } from '../../models/User';
-import { signOutAsync } from '../../firebase/firebase.utils';
+import { UserDoc } from '../../models/User';
+import { signOutAsync } from '../../firebase/firebase.auth';
 
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 
 interface HeaderProps {
-  currentUser: UserDocData | null;
+  currentUser: UserDoc | null;
 }
 
 const Header: React.FC<HeaderProps> = ({ currentUser }) => {

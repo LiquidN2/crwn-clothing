@@ -1,10 +1,10 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 
-import type { UserDocData } from '../models/User';
+import type { UserDoc } from '../models/User';
 
 interface PublicRouteProps {
-  currentUser: UserDocData | null;
+  currentUser: UserDoc | null;
   children: JSX.Element;
 }
 
