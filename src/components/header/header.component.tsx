@@ -4,6 +4,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { signOutAsync } from '../../firebase/firebase.auth';
 
 import { ReactComponent as Logo } from '../../assets/crown.svg';
+import CartIcon from '../cart-icon/cart-icon.component';
 
 import { useAppSelector } from '../../hooks';
 
@@ -34,6 +35,7 @@ const Header: React.FC = () => {
             Sign In
           </NavLink>
         )}
+        <CartIcon />
       </nav>
     </header>
   );
