@@ -13,9 +13,11 @@ const CartDropDown: React.FC = () => {
   return (
     <div className="cart-dropdown">
       <div className="cart-items">
-        {cartItems.map(item => (
-          <CartItem key={item.id} {...item} />
-        ))}
+        {cartItems.length ? (
+          cartItems.map(item => <CartItem key={item.id} {...item} />)
+        ) : (
+          <span className="empty-cart-message">Your cart is empty</span>
+        )}
       </div>
       <CustomButton type="button">Go to Checkout</CustomButton>
     </div>

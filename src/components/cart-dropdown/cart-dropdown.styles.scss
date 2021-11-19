@@ -4,6 +4,7 @@
   height: 340px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   padding: 20px;
   border: 1px solid black;
   background-color: white;
@@ -16,6 +17,12 @@
     display: flex;
     flex-direction: column;
     overflow: scroll;
+  }
+
+  .empty-cart-message {
+    font-size: 18px;
+    align-self: center;
+    margin-top: 50%;
   }
 
   button {
