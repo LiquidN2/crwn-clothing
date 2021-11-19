@@ -1,7 +1,11 @@
 import { ActionType } from './cart.actionType';
 import type { ShopItem } from '../../models/ShopItem';
 import { CartActions } from './cart.actions';
-import { addItemToCart } from './cart.utils';
+import {
+  addItemToCart,
+  changeItemQuantityInCart,
+  removeItemFromCart,
+} from './cart.utils';
 
 export interface CartItem extends ShopItem {
   quantity: number;
@@ -30,11 +34,25 @@ export const cartReducer = (
       };
 
     case ActionType.ADD_ITEM:
-      const updatedCartItems = addItemToCart(action.payload, state.cartItems);
-
       return {
         ...state,
-        cartItems: updatedCartItems,
+        cartItems: addItemToCart(action.payload, state.cartItems),
+      };
+
+    case ActionType.REMOVE_ITEM:
+      return {
+        ...state,
+        cartItems: removeItemFromCart(action.payload, state.cartItems),
+      };
+
+    case ActionType.CHANGE_ITEM_QUANTITY:
+      return {
+        ...state,
+        cartItems: changeItemQuantityInCart(
+          action.payload.itemId,
+          state.cartItems,
+          action.payload.changeQtyBy
+        ),
       };
 
     default:
