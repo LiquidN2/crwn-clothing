@@ -33,3 +33,35 @@ export const addItemToCart = (
     return item;
   });
 };
+
+export const removeItemFromCart = (
+  itemIdToRemove: CartItem['id'],
+  cart: CartItem[]
+): CartItem[] => {
+  if (cart.length === 0) throw Error('Cart is empty');
+
+  return cart.filter(item => item.id !== itemIdToRemove);
+};
+
+export const changeItemQuantityInCart = (
+  itemId: CartItem['id'],
+  cart: CartItem[],
+  changeQtyBy: number
+): CartItem[] => {
+  const itemToChange = cart.find(item => item.id === itemId);
+
+  if (!itemToChange) return cart;
+
+  const resultingQuantity = itemToChange.quantity + changeQtyBy;
+
+  if (resultingQuantity < 0) throw Error('Cannot remove more than current qty');
+
+  if (resultingQuantity === 0) {
+    return removeItemFromCart(itemId, cart);
+  }
+
+  return cart.map(item => {
+    if (item.id !== itemId) return item;
+    return { ...item, quantity: resultingQuantity };
+  });
+};

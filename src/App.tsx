@@ -17,6 +17,7 @@ import HomePage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop/shop.component';
 import ContactPage from './pages/contact/contact.component';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
+import CheckoutPage from './pages/checkout/checkout.component';
 import PlaygroundPage from './pages/playground/playground.component';
 
 import { useActions } from './hooks';
@@ -50,12 +51,13 @@ const App: React.FC = () => {
   }, [SetCurrentUser]);
 
   return (
-    <div>
+    <div onClick={() => console.log('test')}>
       <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="shop" element={<ShopPage />} />
         <Route path="contact" element={<ContactPage />} />
+        <Route path="checkout" element={<CheckoutPage />} />
         <Route
           path="signin"
           element={
