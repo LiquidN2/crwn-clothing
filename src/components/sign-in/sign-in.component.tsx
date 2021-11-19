@@ -1,5 +1,5 @@
 import './sign-in.styles.scss';
-import React, { FormEventHandler, useState } from 'react';
+import React, { FormEventHandler, MouseEventHandler, useState } from 'react';
 
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
@@ -20,6 +20,15 @@ const SignIn: React.FC = () => {
 
     signIn(formData).then();
   };
+
+  const handleSignInWithGoogleClick: MouseEventHandler<HTMLButtonElement> =
+    async () => {
+      try {
+        await signInWithGoogle();
+      } catch (err: any) {
+        console.error('Error code:', err.code);
+      }
+    };
 
   return (
     <div className="sign-in">
@@ -51,7 +60,7 @@ const SignIn: React.FC = () => {
           <CustomButton
             type="button"
             isGoogleSignIn={true}
-            handleClick={() => signInWithGoogle()}
+            onClick={handleSignInWithGoogleClick}
           >
             Sign In with Google
           </CustomButton>

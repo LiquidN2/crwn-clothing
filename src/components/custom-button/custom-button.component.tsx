@@ -4,24 +4,30 @@ import React, { MouseEventHandler } from 'react';
 interface CustomButtonProps {
   type?: 'submit' | 'reset' | 'button';
   isGoogleSignIn?: boolean;
-  handleClick?: MouseEventHandler<HTMLButtonElement>;
+  inverted?: boolean;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
 const CustomButton: React.FC<CustomButtonProps> = ({
   children,
   type,
   isGoogleSignIn,
-  handleClick,
+  inverted,
   ...otherProps
-}) => (
-  <button
-    className={`${isGoogleSignIn ? 'google-sign-in' : ''} custom-button`}
-    type={type ? type : 'button'}
-    onClick={handleClick}
-    {...otherProps}
-  >
-    {children}
-  </button>
-);
+}) => {
+  const btnClassName = `${inverted ? 'inverted' : ''} ${
+    isGoogleSignIn ? 'google-sign-in' : ''
+  } custom-button`;
+
+  return (
+    <button
+      className={btnClassName}
+      type={type ? type : 'button'}
+      {...otherProps}
+    >
+      {children}
+    </button>
+  );
+};
 
 export default CustomButton;
