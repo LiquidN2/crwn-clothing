@@ -5,9 +5,10 @@ import CartItem from '../cart-item/cart-item.component';
 import CustomButton from '../custom-button/custom-button.component';
 
 import { useAppSelector } from '../../hooks';
+import { selectCartItems } from '../../redux/cart/cart.selectors';
 
 const CartDropDown: React.FC = () => {
-  const { cartItems } = useAppSelector(state => state.cart);
+  const cartItems = useAppSelector(selectCartItems);
 
   return (
     <div className="cart-dropdown">

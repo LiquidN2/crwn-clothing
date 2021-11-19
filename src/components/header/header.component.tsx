@@ -8,12 +8,12 @@ import CartIcon from '../cart-icon/cart-icon.component';
 import CartDropDown from '../cart-dropdown/cart-dropdown.component';
 
 import { useAppSelector } from '../../hooks';
+import { selectCurrentUser } from '../../redux/user/user.selectors';
+import { selectCartHidden } from '../../redux/cart/cart.selectors';
 
 const Header: React.FC = () => {
-  const { currentUser, hiddenCart } = useAppSelector(state => ({
-    currentUser: state.user.currentUser,
-    hiddenCart: state.cart.hidden,
-  }));
+  const currentUser = useAppSelector(selectCurrentUser);
+  const cartHidden = useAppSelector(selectCartHidden);
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     isActive ? 'nav__link nav__link--active' : 'nav__link';
@@ -41,7 +41,7 @@ const Header: React.FC = () => {
         )}
         <CartIcon />
       </nav>
-      {!hiddenCart && <CartDropDown />}
+      {!cartHidden && <CartDropDown />}
     </header>
   );
 };
