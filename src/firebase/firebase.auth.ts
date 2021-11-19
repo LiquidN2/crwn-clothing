@@ -13,15 +13,26 @@ export { auth };
 
 // ------------------------------
 // Sign out
-export const signOutAsync = async () => await signOut(auth);
+export const signOutAsync = async (): Promise<void> => {
+  try {
+    await signOut(auth);
+  } catch (err) {
+    throw err;
+  }
+};
 
 // ------------------------------
 // Sign In - Google
 const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: 'select_account' });
 
-export const signInWithGoogle = async () =>
-  await signInWithPopup(auth, googleProvider);
+export const signInWithGoogle = async (): Promise<void> => {
+  try {
+    await signInWithPopup(auth, googleProvider);
+  } catch (err) {
+    throw err;
+  }
+};
 
 // ------------------------------
 // Sign In - Email & Password
@@ -31,8 +42,12 @@ export const signIn = async ({
 }: {
   email: string;
   password: string;
-}) => {
-  await signInWithEmailAndPassword(auth, email, password);
+}): Promise<void> => {
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+  } catch (err) {
+    throw err;
+  }
 };
 
 // ------------------------------
@@ -45,7 +60,7 @@ export const signUp = async ({
   email: string;
   password: string;
   displayName: string;
-}) => {
+}): Promise<void> => {
   try {
     const userCredential = await createUserWithEmailAndPassword(
       auth,

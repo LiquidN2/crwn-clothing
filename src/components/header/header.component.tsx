@@ -4,11 +4,16 @@ import { Link, NavLink } from 'react-router-dom';
 import { signOutAsync } from '../../firebase/firebase.auth';
 
 import { ReactComponent as Logo } from '../../assets/crown.svg';
+import CartIcon from '../cart-icon/cart-icon.component';
+import CartDropDown from '../cart-dropdown/cart-dropdown.component';
 
 import { useAppSelector } from '../../hooks';
 
 const Header: React.FC = () => {
-  const { currentUser } = useAppSelector(state => state.user);
+  const { currentUser, hiddenCart } = useAppSelector(state => ({
+    currentUser: state.user.currentUser,
+    hiddenCart: state.cart.hidden,
+  }));
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     isActive ? 'nav__link nav__link--active' : 'nav__link';
@@ -34,7 +39,9 @@ const Header: React.FC = () => {
             Sign In
           </NavLink>
         )}
+        <CartIcon />
       </nav>
+      {!hiddenCart && <CartDropDown />}
     </header>
   );
 };

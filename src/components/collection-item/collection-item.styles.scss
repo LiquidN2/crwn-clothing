@@ -5,6 +5,7 @@
   height: 350px;
   align-items: center;
   overflow: hidden;
+  position: relative;
 
   .image {
     width: 100%;
@@ -14,10 +15,9 @@
     margin-bottom: 5px;
   }
 
-  //&:hover .image {
-  //  transform: scale(1.1);
-  //  transition: transform 6s cubic-bezier(0.25, 0.45, 0.45, 0.95);
-  //}
+  &:hover .image {
+    opacity: 0.8;
+  }
 
   .collection-footer {
     width: 100%;
@@ -25,6 +25,7 @@
     display: flex;
     justify-content: space-between;
     font-size: 18px;
+    z-index: 1;
 
     .name {
       width: 90%;
@@ -34,5 +35,17 @@
     .price {
       width: 10%;
     }
+  }
+
+  .custom-button {
+    width: 80%;
+    opacity: 0.7;
+    position: absolute;
+    top: 255px;
+    display: none;
+  }
+
+  &:hover .custom-button {
+    display: inline-block;
   }
 }

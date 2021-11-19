@@ -73,11 +73,15 @@ export const getCollections = async () => {
   snapshot.forEach(doc => console.log(doc.data()));
 };
 
-export const getUserById = async (uid: string) => {
-  const userDocRef = doc(userColRef, uid);
-  const userDocSnapshot = await getDoc(userDocRef);
+export const getUserById = async (uid: string): Promise<UserDoc | null> => {
+  try {
+    const userDocRef = doc(userColRef, uid);
+    const userDocSnapshot = await getDoc(userDocRef);
 
-  if (!userDocSnapshot.exists()) return null;
+    if (!userDocSnapshot.exists()) return null;
 
-  return userDocSnapshot.data();
+    return userDocSnapshot.data();
+  } catch (err) {
+    throw err;
+  }
 };
