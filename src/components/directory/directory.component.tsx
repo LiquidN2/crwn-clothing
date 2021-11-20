@@ -1,13 +1,15 @@
 import './directory.styles.scss';
-import React, { useState } from 'react';
-import MenuItem, { MenuItemProps } from '../menu-item/menu-item.component';
-import SECTIONS_DATA from '../../dev-data/sections.data';
+import React from 'react';
+import MenuItem from '../menu-item/menu-item.component';
+import { useAppSelector } from '../../hooks';
+import { selectDirectorySections } from '../../redux/directory/directory.selectors';
 
 const Directory: React.FC = () => {
-  const [sections] = useState<MenuItemProps[]>(SECTIONS_DATA);
+  const sections = useAppSelector(selectDirectorySections);
+
   return (
     <div className="directory-menu">
-      {sections.map(({ id, ...props }: MenuItemProps) => (
+      {sections.map(({ id, ...props }) => (
         <MenuItem key={id} {...props} />
       ))}
     </div>

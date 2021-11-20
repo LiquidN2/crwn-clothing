@@ -1,7 +1,14 @@
-import { CollectionPreviewProps } from '../components/collection-preview/collection-preview.component';
+import { ShopItem } from '../../models/ShopItem';
+
+export interface ShopCollection {
+  id: number;
+  title: string;
+  routeName: string;
+  items: ShopItem[];
+}
 
 /* Used as starting data for ShopPage */
-const SHOP_DATA: CollectionPreviewProps[] = [
+const SHOP_DATA: ShopCollection[] = [
   {
     id: 1,
     title: 'Hats',
