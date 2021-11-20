@@ -1,5 +1,15 @@
 import { ShopItem } from '../../models/ShopItem';
 
+export enum CollectionIdMap {
+  hats = 1,
+  sneakers,
+  jackets,
+  womens,
+  mens,
+}
+
+export type CollectionRouteName = keyof typeof CollectionIdMap;
+
 export interface ShopCollection {
   id: number;
   title: string;

@@ -2,26 +2,38 @@ import React, { MouseEventHandler, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import type { User } from 'firebase/auth';
 
+// FIREBASE
 import { auth } from './firebase/firebase.auth';
-
 import {
   createUserProfileDocument,
   getUserById,
 } from './firebase/firebase.firestore';
 
-import './App.scss';
+// LAYOUT COMPONENT
 import Header from './components/header/header.component';
-import PublicRoute from './routes/public-route.component';
 
+// PAGE COMPONENTS
 import HomePage from './pages/homepage/homepage.component';
-import ShopPage from './pages/shop/shop.component';
 import ContactPage from './pages/contact/contact.component';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
 import CheckoutPage from './pages/checkout/checkout.component';
 import PlaygroundPage from './pages/playground/playground.component';
+import NotFoundPage from './pages/404/404.component';
 
+// PAGE COMPONENTS - SHOP
+import ShopPage from './pages/shop/shop.component';
+import CollectionsOverview from './components/collections-overview/collections-overview.component';
+import Collection from './pages/collection/collection.component';
+
+// ROUTING COMPONENT
+import PublicRoute from './routes/public-route.component';
+
+// REDUX HOOKS
 import { useActions, useAppSelector } from './hooks';
 import { selectCartHidden } from './redux/cart/cart.selectors';
+
+// STYLES
+import './App.scss';
 
 const App: React.FC = () => {
   const { SetCurrentUser, toggleCartHidden } = useActions();
@@ -59,14 +71,19 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="app" onClick={handleAppBodyClick}>
+    <div className="app">
       <div className="container">
         <Header />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="shop" element={<ShopPage />} />
           <Route path="contact" element={<ContactPage />} />
           <Route path="checkout" element={<CheckoutPage />} />
+
+          <Route path="shop" element={<ShopPage />}>
+            <Route index element={<CollectionsOverview />} />
+            <Route path=":collectionRouteName" element={<Collection />} />
+          </Route>
+
           <Route
             path="signin"
             element={
@@ -76,14 +93,7 @@ const App: React.FC = () => {
             }
           />
           <Route path="playground" element={<PlaygroundPage />} />
-          <Route
-            path="*"
-            element={
-              <main style={{ padding: '1rem' }}>
-                <p>404! Page not found</p>
-              </main>
-            }
-          />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </div>
     </div>
