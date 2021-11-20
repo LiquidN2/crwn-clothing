@@ -1,15 +1,5 @@
 import { ShopItem } from '../../models/ShopItem';
 
-export enum CollectionIdMap {
-  hats = 1,
-  sneakers,
-  jackets,
-  womens,
-  mens,
-}
-
-export type CollectionRouteName = keyof typeof CollectionIdMap;
-
 export interface ShopCollection {
   id: number;
   title: string;
@@ -17,9 +7,18 @@ export interface ShopCollection {
   items: ShopItem[];
 }
 
-/* Used as starting data for ShopPage */
-const SHOP_DATA: ShopCollection[] = [
-  {
+export interface ShopData {
+  hats: ShopCollection;
+  sneakers: ShopCollection;
+  jackets: ShopCollection;
+  womens: ShopCollection;
+  mens: ShopCollection;
+}
+
+export type CollectionRouteName = keyof ShopData;
+
+export const SHOP_DATA: ShopData = {
+  hats: {
     id: 1,
     title: 'Hats',
     routeName: 'hats',
@@ -89,7 +88,7 @@ const SHOP_DATA: ShopCollection[] = [
       },
     ],
   },
-  {
+  sneakers: {
     id: 2,
     title: 'Sneakers',
     routeName: 'sneakers',
@@ -152,7 +151,7 @@ const SHOP_DATA: ShopCollection[] = [
       },
     ],
   },
-  {
+  jackets: {
     id: 3,
     title: 'Jackets',
     routeName: 'jackets',
@@ -194,7 +193,7 @@ const SHOP_DATA: ShopCollection[] = [
       },
     ],
   },
-  {
+  womens: {
     id: 4,
     title: 'Womens',
     routeName: 'womens',
@@ -250,7 +249,7 @@ const SHOP_DATA: ShopCollection[] = [
       },
     ],
   },
-  {
+  mens: {
     id: 5,
     title: 'Mens',
     routeName: 'mens',
@@ -299,6 +298,4 @@ const SHOP_DATA: ShopCollection[] = [
       },
     ],
   },
-];
-
-export default SHOP_DATA;
+};
