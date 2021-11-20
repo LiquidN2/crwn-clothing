@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { MouseEventHandler, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import type { User } from 'firebase/auth';
 
@@ -20,10 +20,12 @@ import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up
 import CheckoutPage from './pages/checkout/checkout.component';
 import PlaygroundPage from './pages/playground/playground.component';
 
-import { useActions } from './hooks';
+import { useActions, useAppSelector } from './hooks';
+import { selectCartHidden } from './redux/cart/cart.selectors';
 
 const App: React.FC = () => {
-  const { SetCurrentUser } = useActions();
+  const { SetCurrentUser, toggleCartHidden } = useActions();
+  const cartHidden = useAppSelector(selectCartHidden);
 
   useEffect(() => {
     // subscribe to Firebase auth state change
@@ -50,32 +52,39 @@ const App: React.FC = () => {
     });
   }, [SetCurrentUser]);
 
+  const handleAppBodyClick: MouseEventHandler<HTMLDivElement> = () => {
+    if (cartHidden) return;
+    toggleCartHidden();
+  };
+
   return (
-    <div onClick={() => console.log('test')}>
-      <Header />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="shop" element={<ShopPage />} />
-        <Route path="contact" element={<ContactPage />} />
-        <Route path="checkout" element={<CheckoutPage />} />
-        <Route
-          path="signin"
-          element={
-            <PublicRoute>
-              <SignInAndSignUpPage />
-            </PublicRoute>
-          }
-        />
-        <Route path="playground" element={<PlaygroundPage />} />
-        <Route
-          path="*"
-          element={
-            <main style={{ padding: '1rem' }}>
-              <p>404! Page not found</p>
-            </main>
-          }
-        />
-      </Routes>
+    <div className="app" onClick={handleAppBodyClick}>
+      <div className="container">
+        <Header />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="shop" element={<ShopPage />} />
+          <Route path="contact" element={<ContactPage />} />
+          <Route path="checkout" element={<CheckoutPage />} />
+          <Route
+            path="signin"
+            element={
+              <PublicRoute>
+                <SignInAndSignUpPage />
+              </PublicRoute>
+            }
+          />
+          <Route path="playground" element={<PlaygroundPage />} />
+          <Route
+            path="*"
+            element={
+              <main style={{ padding: '1rem' }}>
+                <p>404! Page not found</p>
+              </main>
+            }
+          />
+        </Routes>
+      </div>
     </div>
   );
 };
