@@ -21,7 +21,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
   const { location } = history;
   const onClick: MouseEventHandler<HTMLDivElement> = () => {
     // console.log(`${history.location.pathname}${linkUrl}`);
-    navigate(`${location.pathname}${linkUrl}`);
+    navigate(`${linkUrl}`);
   };
 
   return (
