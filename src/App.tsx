@@ -52,9 +52,10 @@ const App: React.FC = () => {
     });
   }, [SetCurrentUser]);
 
-  const handleAppBodyClick: MouseEventHandler<HTMLDivElement> = () => {
-    if (cartHidden) return;
-    toggleCartHidden();
+  const handleAppBodyClick: MouseEventHandler<HTMLDivElement> = e => {
+    console.log(e.currentTarget.querySelector('.cart-icon'));
+    // if (cartHidden) return;
+    // toggleCartHidden();
   };
 
   return (
