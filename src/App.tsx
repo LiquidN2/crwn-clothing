@@ -22,8 +22,8 @@ import NotFoundPage from './pages/404/404.component';
 
 // PAGE COMPONENTS - SHOP
 import ShopPage from './pages/shop/shop.component';
-import CollectionsOverview from './components/collections-overview/collections-overview.component';
-import Collection from './pages/collection/collection.component';
+import CollectionsOverview from './pages/shop/collections-overview/collections-overview.component';
+import Collection from './pages/shop/collection/collection.component';
 
 // ROUTING COMPONENT
 import PublicRoute from './routes/public-route.component';

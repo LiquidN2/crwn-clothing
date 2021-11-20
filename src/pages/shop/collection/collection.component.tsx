@@ -1,14 +1,12 @@
 import React from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 
-import CollectionItem from '../../components/collection-item/collection-item.component';
-import { useAppSelector } from '../../hooks';
-import { selectCollection } from '../../redux/shop/shop.selectors';
-import { CollectionRouteName } from '../../redux/shop/shop.data';
+import CollectionItem from '../../../components/collection-item/collection-item.component';
+import { useAppSelector } from '../../../hooks';
+import { selectCollection } from '../../../redux/shop/shop.selectors';
+import { CollectionRouteName } from '../../../redux/shop/shop.data';
 
 import './collection.styles.scss';
-
-export interface CategoryProps {}
 
 const Collection: React.FC = () => {
   const params = useParams<'collectionRouteName'>();

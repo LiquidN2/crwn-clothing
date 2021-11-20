@@ -1,20 +1,23 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '../store';
-import { CollectionIdMap, CollectionRouteName } from './shop.data';
+import { ShopCollection, ShopData } from './shop.data';
 import memoize from 'lodash.memoize';
 
 const selectShop = (state: RootState) => state.shop;
 
 export const selectCollections = createSelector(
   [selectShop],
-  shop => shop.collections
+  (shop): ShopData => shop.collections
 );
 
-export const selectCollection = memoize(
-  (collectionRouteName: CollectionRouteName) =>
-    createSelector([selectCollections], collections =>
-      collections.find(
-        collection => collection.id === CollectionIdMap[collectionRouteName]
-      )
-    )
+export const selectCollectionsAsArray = createSelector(
+  [selectCollections],
+  (collections): ShopCollection[] => Object.values(collections)
+);
+
+export const selectCollection = memoize((collectionRouteName: keyof ShopData) =>
+  createSelector(
+    [selectCollections],
+    (collections): ShopCollection => collections[collectionRouteName]
+  )
 );

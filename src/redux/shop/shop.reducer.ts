@@ -1,7 +1,7 @@
-import SHOP_DATA, { ShopCollection } from './shop.data';
+import { SHOP_DATA, ShopData } from './shop.data';
 
 export interface ShopState {
-  collections: ShopCollection[];
+  collections: ShopData;
 }
 
 const INITIAL_STATE: ShopState = {
