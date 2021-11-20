@@ -5,6 +5,7 @@
   justify-content: space-between;
   align-items: center;
   margin: 40px 0;
+  position: relative;
 
   .logo-container {
     //height: 100%;
@@ -48,5 +49,11 @@
     font-weight: bold;
     font-size: 16px;
     transition: color 0.2s;
+  }
+
+  .cart-dropdown {
+    position: absolute;
+    top: 75px;
+    right: 7px;
   }
 }
