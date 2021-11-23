@@ -1,6 +1,13 @@
-import './cart-item.styles.scss';
 import React from 'react';
+
 import type { CartItem as CartItemType } from '../../redux/cart/cart.reducer';
+import {
+  CartItemContainer,
+  CartItemImage,
+  CartItemDetails,
+  CartItemName,
+  CartItemPrice,
+} from './cart-item.styles';
 
 export interface CartItemProps extends CartItemType {}
 
@@ -11,15 +18,15 @@ const CartItem: React.FC<CartItemProps> = ({
   quantity,
 }) => {
   return (
-    <div className="cart-item">
-      <img src={imageUrl} alt={name} className="item" />
-      <div className="item-details">
-        <span className="name">{name}</span>
-        <span className="price">
+    <CartItemContainer>
+      <CartItemImage src={imageUrl} alt={name} />
+      <CartItemDetails>
+        <CartItemName>{name}</CartItemName>
+        <CartItemPrice>
           {quantity} x ${price}
-        </span>
-      </div>
-    </div>
+        </CartItemPrice>
+      </CartItemDetails>
+    </CartItemContainer>
   );
 };
 

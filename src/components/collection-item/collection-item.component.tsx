@@ -1,8 +1,14 @@
-import './collection-item.styles.scss';
 import React, { MouseEventHandler } from 'react';
 import { ShopItem } from '../../models/ShopItem';
 
-import CustomButton from '../custom-button/custom-button.component';
+import {
+  CollectionItemContainer,
+  ItemFooter,
+  ItemPrice,
+  ItemName,
+  ItemImage,
+  ItemButton,
+} from './collection-item.styles';
 
 import { useActions } from '../../hooks';
 
@@ -22,21 +28,20 @@ const CollectionItem: React.FC<CollectionItemProps> = ({
   };
 
   return (
-    <div className="collection-item">
-      <div
-        className="image"
+    <CollectionItemContainer>
+      <ItemImage
         style={{
           backgroundImage: `url(${imageUrl})`,
         }}
       />
-      <div className="collection-footer">
-        <span className="name">{name}</span>
-        <span className="price">${price}</span>
-      </div>
-      <CustomButton inverted={true} onClick={handleAddItemClick}>
+      <ItemFooter>
+        <ItemName>{name}</ItemName>
+        <ItemPrice>${price}</ItemPrice>
+      </ItemFooter>
+      <ItemButton inverted={true} onClick={handleAddItemClick}>
         add to card
-      </CustomButton>
-    </div>
+      </ItemButton>
+    </CollectionItemContainer>
   );
 };
 

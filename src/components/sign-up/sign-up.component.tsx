@@ -1,10 +1,12 @@
-import './sign-up.styles.scss';
 import React, { FormEventHandler, useState } from 'react';
 
-import CustomButton from '../custom-button/custom-button.component';
 import FormInput from '../form-input/form-input.component';
 
 import { signUp } from '../../firebase/firebase.auth';
+
+import { StyledCustomButton } from '../custom-button/custom-button.styles';
+
+import { SignUpContainer, SignUpTitle } from './sign-up.styles';
 
 const SignUp: React.FC = () => {
   const [displayName, setDisplayName] = useState('');
@@ -36,8 +38,8 @@ const SignUp: React.FC = () => {
   };
 
   return (
-    <div className="sign-up">
-      <h2 className="title">I do not have an account</h2>
+    <SignUpContainer>
+      <SignUpTitle>I do not have an account</SignUpTitle>
       <span>Sign up with your email & password</span>
       <form onSubmit={handleSubmit}>
         <FormInput
@@ -80,9 +82,9 @@ const SignUp: React.FC = () => {
           required={true}
         />
 
-        <CustomButton type="submit">Sign Up</CustomButton>
+        <StyledCustomButton type="submit">Sign Up</StyledCustomButton>
       </form>
-    </div>
+    </SignUpContainer>
   );
 };
 

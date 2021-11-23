@@ -1,5 +1,6 @@
-import './form-input.styles.scss';
 import React, { ChangeEventHandler } from 'react';
+
+import { InputGroup, Label, Input } from './form-input.styles';
 
 interface FormInputProps {
   label: string;
@@ -16,19 +17,17 @@ const FormInput: React.FC<FormInputProps> = ({
   handleChange,
   ...otherProps
 }) => (
-  <div className="group">
-    <input className="form-input" onChange={handleChange} {...otherProps} />
+  <InputGroup>
+    <Input onChange={handleChange} {...otherProps} />
     {label ? (
-      <label
+      <Label
         htmlFor={otherProps.id ? otherProps.id : ''}
-        className={`${
-          otherProps.value?.length ? 'shrink' : ''
-        } form-input-label`}
+        className={`${otherProps.value?.length ? 'shrink' : ''}`}
       >
         {label}
-      </label>
+      </Label>
     ) : null}
-  </div>
+  </InputGroup>
 );
 
 export default FormInput;

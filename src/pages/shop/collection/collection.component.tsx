@@ -6,7 +6,11 @@ import { useAppSelector } from '../../../hooks';
 import { selectCollection } from '../../../redux/shop/shop.selectors';
 import { CollectionRouteName } from '../../../redux/shop/shop.data';
 
-import './collection.styles.scss';
+import {
+  CollectionPageContainer,
+  CollectionItems,
+  CollectionTitle,
+} from './collection.styles';
 
 const Collection: React.FC = () => {
   const params = useParams<'collectionRouteName'>();
@@ -16,19 +20,17 @@ const Collection: React.FC = () => {
 
   if (!collection) return <Navigate to="/shop" />;
 
-  console.log(collection);
-
   const { title, items } = collection;
 
   return (
-    <div className="collection-page">
-      <h2 className="title">{title}</h2>
-      <div className="items">
+    <CollectionPageContainer>
+      <CollectionTitle>{title}</CollectionTitle>
+      <CollectionItems>
         {items.length
           ? items.map(item => <CollectionItem key={item.id} {...item} />)
           : null}
-      </div>
-    </div>
+      </CollectionItems>
+    </CollectionPageContainer>
   );
 };
 

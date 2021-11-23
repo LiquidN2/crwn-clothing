@@ -1,48 +1,46 @@
-import './header.styles.scss';
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import { signOutAsync } from '../../firebase/firebase.auth';
 
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 import CartIcon from '../cart-icon/cart-icon.component';
 import CartDropDown from '../cart-dropdown/cart-dropdown.component';
 
+import { signOutAsync } from '../../firebase/firebase.auth';
 import { useAppSelector } from '../../hooks';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
 import { selectCartHidden } from '../../redux/cart/cart.selectors';
+
+import {
+  HeaderContainer,
+  LogoContainer,
+  NavContainer,
+  NavItemLink,
+} from './Header.styles';
 
 const Header: React.FC = () => {
   const currentUser = useAppSelector(selectCurrentUser);
   const cartHidden = useAppSelector(selectCartHidden);
 
-  const navLinkClass = ({ isActive }: { isActive: boolean }) =>
-    isActive ? 'nav__link nav__link--active' : 'nav__link';
-
   return (
-    <header className="header">
-      <Link className="logo-container" to="/">
+    <HeaderContainer>
+      <LogoContainer to="/">
         <Logo className="logo" />
-      </Link>
-      <nav className="nav">
-        <NavLink to="/shop" className={navLinkClass}>
-          Shop
-        </NavLink>
-        <NavLink to="/contact" className={navLinkClass}>
-          Contact
-        </NavLink>
+      </LogoContainer>
+
+      <NavContainer>
+        <NavItemLink to="/shop">Shop</NavItemLink>
+        <NavItemLink to="/contact">Contact</NavItemLink>
         {currentUser ? (
-          <button className="nav__link" onClick={() => signOutAsync()}>
+          <NavItemLink as="button" onClick={() => signOutAsync()}>
             Sign out
-          </button>
+          </NavItemLink>
         ) : (
-          <NavLink to="/signin" className={navLinkClass}>
-            Sign In
-          </NavLink>
+          <NavItemLink to="/signin">Sign In</NavItemLink>
         )}
         <CartIcon />
-      </nav>
+      </NavContainer>
+
       {!cartHidden && <CartDropDown />}
-    </header>
+    </HeaderContainer>
   );
 };
 

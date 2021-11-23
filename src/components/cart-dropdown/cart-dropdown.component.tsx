@@ -1,30 +1,35 @@
-import './cart-dropdown.styles.scss';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import CartItem from '../cart-item/cart-item.component';
-import CustomButton from '../custom-button/custom-button.component';
+import { StyledCustomButton } from '../custom-button/custom-button.styles';
 
 import { useAppSelector } from '../../hooks';
 import { selectCartItems } from '../../redux/cart/cart.selectors';
+
+import {
+  CartDropdownContainer,
+  CartItems,
+  EmptyCartMessage,
+} from './cart-dropdown.styles';
 
 const CartDropDown: React.FC = () => {
   const navigate = useNavigate();
   const cartItems = useAppSelector(selectCartItems);
 
   return (
-    <div className="cart-dropdown">
-      <div className="cart-items">
+    <CartDropdownContainer>
+      <CartItems>
         {cartItems.length ? (
           cartItems.map(item => <CartItem key={item.id} {...item} />)
         ) : (
-          <span className="empty-cart-message">Your cart is empty</span>
+          <EmptyCartMessage>Your cart is empty</EmptyCartMessage>
         )}
-      </div>
-      <CustomButton type="button" onClick={() => navigate('/checkout')}>
+      </CartItems>
+      <StyledCustomButton type="button" onClick={() => navigate('/checkout')}>
         Go to Checkout
-      </CustomButton>
-    </div>
+      </StyledCustomButton>
+    </CartDropdownContainer>
   );
 };
 

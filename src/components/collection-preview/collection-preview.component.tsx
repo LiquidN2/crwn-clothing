@@ -1,10 +1,15 @@
-import './collection-preview.styles.scss';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
 import CollectionItem, {
   CollectionItemProps,
 } from '../collection-item/collection-item.component';
+
+import {
+  CollectionPreviewContainer,
+  CollectionPreviewTitle,
+  CollectionPreviewItems,
+} from './collection-preview.styles';
 
 export interface CollectionPreviewProps {
   id: number;
@@ -18,18 +23,18 @@ const CollectionPreview: React.FC<CollectionPreviewProps> = ({
   routeName,
   items,
 }) => (
-  <div className="collection-preview">
+  <CollectionPreviewContainer>
     <Link to={routeName}>
-      <h1 className="title">{title}</h1>
+      <CollectionPreviewTitle>{title}</CollectionPreviewTitle>
     </Link>
-    <div className="preview">
+    <CollectionPreviewItems>
       {items
         .filter((item, index) => index < 4)
         .map(item => (
           <CollectionItem key={item.id} {...item} />
         ))}
-    </div>
-  </div>
+    </CollectionPreviewItems>
+  </CollectionPreviewContainer>
 );
 
 export default CollectionPreview;

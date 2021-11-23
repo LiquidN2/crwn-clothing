@@ -1,9 +1,8 @@
-import './cart-icon.styles.scss';
 import React from 'react';
-import { ReactComponent as ShoppingBagIcon } from '../../assets/shopping-bag.svg';
 
 import { useActions, useAppSelector } from '../../hooks';
 import { selectCartItemsCount } from '../../redux/cart/cart.selectors';
+import { CartIconContainer, ShoppingIcon, ItemCount } from './cart-icon.styles';
 
 const CartIcon: React.FC = () => {
   const { toggleCartHidden } = useActions();
@@ -11,10 +10,10 @@ const CartIcon: React.FC = () => {
   const itemCount = useAppSelector(selectCartItemsCount);
 
   return (
-    <div className="cart-icon" onClick={() => toggleCartHidden()}>
-      <ShoppingBagIcon className="shopping-icon" />
-      <span className="item-count">{itemCount}</span>
-    </div>
+    <CartIconContainer onClick={() => toggleCartHidden()}>
+      <ShoppingIcon />
+      <ItemCount>{itemCount}</ItemCount>
+    </CartIconContainer>
   );
 };
 

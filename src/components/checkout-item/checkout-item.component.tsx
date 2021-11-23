@@ -1,8 +1,17 @@
-import './checkout-item.styles.scss';
 import React, { MouseEventHandler } from 'react';
 import type { CartItem } from '../../redux/cart/cart.reducer';
 
 import { useActions } from '../../hooks';
+import {
+  CheckoutItemContainer,
+  CheckoutItemImageContainer,
+  CheckoutItemName,
+  CheckoutItemPrice,
+  CheckoutItemQty,
+  Arrow,
+  QtyValue,
+  RemoveButton,
+} from './checkout-item.styles';
 
 interface CheckoutItemProps extends CartItem {}
 
@@ -25,25 +34,19 @@ const CheckoutItem: React.FC<CheckoutItemProps> = ({
     removeItem(id);
 
   return (
-    <div className="checkout-item">
-      <div className="image-container">
+    <CheckoutItemContainer>
+      <CheckoutItemImageContainer>
         <img src={imageUrl} alt={name} />
-      </div>
-      <span className="name">{name}</span>
-      <span className="quantity">
-        <div className="arrow" onClick={handleDecreaseQty}>
-          &#10094;
-        </div>
-        <span className="value">{quantity}</span>
-        <div className="arrow" onClick={handleIncreaseQty}>
-          &#10095;
-        </div>
-      </span>
-      <span className="price">${price}</span>
-      <div className="remove-button" onClick={handleRemoveItem}>
-        &#10005;
-      </div>
-    </div>
+      </CheckoutItemImageContainer>
+      <CheckoutItemName>{name}</CheckoutItemName>
+      <CheckoutItemQty>
+        <Arrow onClick={handleDecreaseQty}>&#10094;</Arrow>
+        <QtyValue>{quantity}</QtyValue>
+        <Arrow onClick={handleIncreaseQty}>&#10095;</Arrow>
+      </CheckoutItemQty>
+      <CheckoutItemPrice>${price}</CheckoutItemPrice>
+      <RemoveButton onClick={handleRemoveItem}>&#10005;</RemoveButton>
+    </CheckoutItemContainer>
   );
 };
 

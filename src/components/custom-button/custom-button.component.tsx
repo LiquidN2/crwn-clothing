@@ -1,7 +1,6 @@
-import './custom-button.styles.scss';
 import React, { MouseEventHandler } from 'react';
 
-interface CustomButtonProps {
+export interface CustomButtonProps {
   type?: 'submit' | 'reset' | 'button';
   isGoogleSignIn?: boolean;
   inverted?: boolean;
@@ -11,23 +10,10 @@ interface CustomButtonProps {
 const CustomButton: React.FC<CustomButtonProps> = ({
   children,
   type,
-  isGoogleSignIn,
-  inverted,
   ...otherProps
-}) => {
-  const btnClassName = `${inverted ? 'inverted' : ''} ${
-    isGoogleSignIn ? 'google-sign-in' : ''
-  } custom-button`;
-
-  return (
-    <button
-      className={btnClassName}
-      type={type ? type : 'button'}
-      {...otherProps}
-    >
-      {children}
-    </button>
-  );
-};
-
+}) => (
+  <button type={type ? type : 'button'} {...otherProps}>
+    {children}
+  </button>
+);
 export default CustomButton;

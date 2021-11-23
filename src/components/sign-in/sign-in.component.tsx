@@ -1,10 +1,11 @@
-import './sign-in.styles.scss';
 import React, { FormEventHandler, MouseEventHandler, useState } from 'react';
 
 import FormInput from '../form-input/form-input.component';
-import CustomButton from '../custom-button/custom-button.component';
+import { StyledCustomButton } from '../custom-button/custom-button.styles';
 
 import { signInWithGoogle, signIn } from '../../firebase/firebase.auth';
+
+import { SignInContainer, SignInTitle, ButtonGroup } from './sign-in.styles';
 
 const SignIn: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -31,8 +32,8 @@ const SignIn: React.FC = () => {
     };
 
   return (
-    <div className="sign-in">
-      <h2 className="title">I already have an account</h2>
+    <SignInContainer>
+      <SignInTitle>I already have an account</SignInTitle>
       <span>Sign in with your email & password</span>
       <form onSubmit={onSubmit}>
         <FormInput
@@ -55,18 +56,18 @@ const SignIn: React.FC = () => {
           required={true}
         />
 
-        <div className="button-group">
-          <CustomButton type="submit">Sign In</CustomButton>
-          <CustomButton
+        <ButtonGroup>
+          <StyledCustomButton type="submit">Sign In</StyledCustomButton>
+          <StyledCustomButton
             type="button"
             isGoogleSignIn={true}
             onClick={handleSignInWithGoogleClick}
           >
             Sign In with Google
-          </CustomButton>
-        </div>
+          </StyledCustomButton>
+        </ButtonGroup>
       </form>
-    </div>
+    </SignInContainer>
   );
 };
 
