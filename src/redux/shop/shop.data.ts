@@ -1,25 +1,14 @@
-import { ShopItem } from '../../models/ShopItem';
-
-export interface ShopCollection {
-  id: number;
-  title: string;
-  routeName: string;
-  items: ShopItem[];
-}
+import { ShopCollection } from '../../models/Collection';
 
 export interface ShopData {
-  hats: ShopCollection;
-  sneakers: ShopCollection;
-  jackets: ShopCollection;
-  womens: ShopCollection;
-  mens: ShopCollection;
+  [key: string]: ShopCollection;
 }
 
 export type CollectionRouteName = keyof ShopData;
 
 export const SHOP_DATA: ShopData = {
   hats: {
-    id: 1,
+    id: '1',
     title: 'Hats',
     routeName: 'hats',
     items: [
@@ -89,7 +78,7 @@ export const SHOP_DATA: ShopData = {
     ],
   },
   sneakers: {
-    id: 2,
+    id: '2',
     title: 'Sneakers',
     routeName: 'sneakers',
     items: [
@@ -152,7 +141,7 @@ export const SHOP_DATA: ShopData = {
     ],
   },
   jackets: {
-    id: 3,
+    id: '3',
     title: 'Jackets',
     routeName: 'jackets',
     items: [
@@ -194,7 +183,7 @@ export const SHOP_DATA: ShopData = {
     ],
   },
   womens: {
-    id: 4,
+    id: '4',
     title: 'Womens',
     routeName: 'womens',
     items: [
@@ -250,7 +239,7 @@ export const SHOP_DATA: ShopData = {
     ],
   },
   mens: {
-    id: 5,
+    id: '5',
     title: 'Mens',
     routeName: 'mens',
     items: [

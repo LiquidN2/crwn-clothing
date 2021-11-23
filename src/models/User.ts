@@ -5,7 +5,7 @@ import {
   SnapshotOptions,
 } from 'firebase/firestore';
 
-class UserDoc {
+export class UserDoc {
   constructor(
     readonly email: string,
     readonly displayName: string | null = null,
@@ -17,7 +17,7 @@ class UserDoc {
   ) {}
 }
 
-const userConverter = {
+export const userConverter = {
   toFirestore(user: WithFieldValue<UserDoc>): DocumentData {
     return {
       email: user.email,
@@ -46,5 +46,3 @@ const userConverter = {
     );
   },
 };
-
-export { UserDoc, userConverter };

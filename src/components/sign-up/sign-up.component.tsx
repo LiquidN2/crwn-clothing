@@ -1,11 +1,9 @@
 import React, { FormEventHandler, useState } from 'react';
 
-import FormInput from '../form-input/form-input.component';
-
 import { signUp } from '../../firebase/firebase.auth';
 
+import FormInput from '../form-input/form-input.component';
 import { StyledCustomButton } from '../custom-button/custom-button.styles';
-
 import { SignUpContainer, SignUpTitle } from './sign-up.styles';
 
 const SignUp: React.FC = () => {

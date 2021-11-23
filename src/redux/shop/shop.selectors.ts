@@ -1,6 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '../store';
-import { ShopCollection, ShopData } from './shop.data';
+import { ShopCollection } from '../../models/Collection';
+import { ShopData } from './shop.data';
 import memoize from 'lodash.memoize';
 
 const selectShop = (state: RootState) => state.shop;

@@ -10,6 +10,8 @@ export interface CustomButtonProps {
 const CustomButton: React.FC<CustomButtonProps> = ({
   children,
   type,
+  isGoogleSignIn,
+  inverted,
   ...otherProps
 }) => (
   <button type={type ? type : 'button'} {...otherProps}>

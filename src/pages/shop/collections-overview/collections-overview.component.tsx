@@ -3,7 +3,7 @@ import React from 'react';
 import CollectionPreview from '../../../components/collection-preview/collection-preview.component';
 import { useAppSelector } from '../../../hooks';
 import { selectCollectionsAsArray } from '../../../redux/shop/shop.selectors';
-import { ShopCollection } from '../../../redux/shop/shop.data';
+import { ShopCollection } from '../../../models/Collection';
 import { CollectionsOverviewContainer } from './collections-overview.styles';
 
 const CollectionsOverview: React.FC = () => {

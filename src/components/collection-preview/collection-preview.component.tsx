@@ -5,16 +5,15 @@ import CollectionItem, {
   CollectionItemProps,
 } from '../collection-item/collection-item.component';
 
+import { ShopCollection } from '../../models/Collection';
+
 import {
   CollectionPreviewContainer,
   CollectionPreviewTitle,
   CollectionPreviewItems,
 } from './collection-preview.styles';
 
-export interface CollectionPreviewProps {
-  id: number;
-  title: string;
-  routeName: string;
+export interface CollectionPreviewProps extends ShopCollection {
   items: CollectionItemProps[];
 }
 

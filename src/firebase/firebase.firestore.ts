@@ -1,10 +1,22 @@
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 import { createUserWithEmailAndPassword, User } from 'firebase/auth';
-import { collection, getDocs, doc, getDoc, setDoc } from 'firebase/firestore';
+import {
+  collection,
+  getDocs,
+  doc,
+  getDoc,
+  setDoc,
+  onSnapshot,
+  query,
+  CollectionReference,
+} from 'firebase/firestore';
 
 import { auth, firestore } from './firebase.config';
 import { UserDoc, userConverter } from '../models/User';
+import { collectionConverter, CollectionDoc } from '../models/Collection';
+import { itemConverter, ItemDoc, ShopItem } from '../models/ShopItem';
+import { ShopData } from '../redux/shop/shop.data';
 
 const userColRef = collection(firestore, 'users').withConverter(userConverter);
 
@@ -66,13 +78,6 @@ export const signUp = async ({
   }
 };
 
-// ------------------------------------------
-// FIRESTORE
-export const getCollections = async () => {
-  const snapshot = await getDocs(collection(firestore, 'collections'));
-  snapshot.forEach(doc => console.log(doc.data()));
-};
-
 export const getUserById = async (uid: string): Promise<UserDoc | null> => {
   try {
     const userDocRef = doc(userColRef, uid);
@@ -81,6 +86,80 @@ export const getUserById = async (uid: string): Promise<UserDoc | null> => {
     if (!userDocSnapshot.exists()) return null;
 
     return userDocSnapshot.data();
+  } catch (err) {
+    throw err;
+  }
+};
+
+// ---------------------------------
+// COLLECTIONS DATA
+export const getUpdatedCollectionItems = async (
+  collectionId: string,
+  collectionRef: CollectionReference<CollectionDoc>
+): Promise<ShopItem[]> => {
+  const itemsRef = collection(
+    collectionRef,
+    collectionId,
+    'items'
+  ).withConverter(itemConverter);
+
+  const itemsQuery = query(itemsRef);
+  // const querySnapshot = await getDocs(itemsQuery);
+  // const items = querySnapshot.docs.map(docSnapshot => {
+  //   const { id, name, imageUrl, price } = docSnapshot.data();
+  //   return { id, name, imageUrl, price, firebaseId: docSnapshot.id };
+  // });
+  //
+  // return items;
+  return new Promise((resolve, reject) => {
+    try {
+      onSnapshot(itemsQuery, querySnapshot => {
+        const items = querySnapshot.docs.map(
+          (docSnapshot): ShopItem => docSnapshot.data().toObj()
+        );
+
+        if (!items) reject('No items in this collection');
+
+        resolve(items);
+      });
+    } catch (err) {
+      throw err;
+    }
+  });
+};
+
+export const watchCollection = async () => {
+  try {
+    const collectionsRef = collection(firestore, 'collections').withConverter(
+      collectionConverter
+    );
+    const querySnapshot = await getDocs(collectionsRef);
+
+    const collections: ShopData = {};
+
+    for (let i = 0; i < querySnapshot.docs.length; i++) {
+      const docSnapshot = querySnapshot.docs[i];
+      const { title } = docSnapshot.data();
+      const routeName = encodeURI(title.toLocaleLowerCase());
+      const firebaseId = docSnapshot.id;
+      const items = await getUpdatedCollectionItems(
+        docSnapshot.id,
+        collectionsRef
+      );
+
+      collections[title.toLocaleLowerCase()] = {
+        id: firebaseId,
+        title,
+        routeName,
+        items,
+      };
+    }
+
+    console.log('test');
+
+    console.log(collections);
+
+    return collections;
   } catch (err) {
     throw err;
   }
