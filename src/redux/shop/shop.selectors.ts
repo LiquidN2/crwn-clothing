@@ -6,6 +6,16 @@ import memoize from 'lodash.memoize';
 
 const selectShop = (state: RootState) => state.shop;
 
+export const selectCollectionsLoading = createSelector(
+  [selectShop],
+  (shop): boolean => shop.isLoading
+);
+
+export const selectCollectionsError = createSelector(
+  [selectShop],
+  shop => shop.error
+);
+
 export const selectCollections = createSelector(
   [selectShop],
   (shop): ShopData => shop.collections

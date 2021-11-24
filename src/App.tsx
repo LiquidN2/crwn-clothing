@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import type { User } from 'firebase/auth';
 
@@ -23,8 +23,8 @@ import NotFoundPage from './pages/404/404.component';
 
 // PAGE COMPONENTS - SHOP
 import ShopPage from './pages/shop/shop.component';
-import CollectionsOverview from './pages/shop/collections-overview/collections-overview.component';
-import Collection from './pages/shop/collection/collection.component';
+import CollectionsOverview from './pages/shop/collections-overview/collections-overview.container';
+import Collection from './pages/shop/collection/collection.container';
 
 // ROUTING COMPONENT
 import PublicRoute from './routes/public-route.component';
@@ -32,18 +32,11 @@ import PublicRoute from './routes/public-route.component';
 // REDUX HOOKS
 import { useActions } from './hooks';
 
-import { getCollections } from './firebase/firebase.firestore';
-
 // STYLES
 import './App.scss';
 
-const CollectionsOverviewWithSpinner = withSpinner(CollectionsOverview);
-const CollectionWithSpinner = withSpinner(Collection);
-
 const App: React.FC = () => {
-  const [loadingCollections, setLoadingCollections] = useState<boolean>(false);
   const { setCurrentUser } = useActions();
-  const { updateCollections } = useActions();
 
   useEffect(() => {
     // subscribe to Firebase auth state change
@@ -70,14 +63,6 @@ const App: React.FC = () => {
     });
   }, [setCurrentUser]);
 
-  useEffect(() => {
-    setLoadingCollections(true);
-    getCollections().then(collections => {
-      updateCollections(collections);
-      setLoadingCollections(false);
-    });
-  }, []);
-
   return (
     <div className="app">
       <div className="container">
@@ -88,18 +73,8 @@ const App: React.FC = () => {
           <Route path="checkout" element={<CheckoutPage />} />
 
           <Route path="shop" element={<ShopPage />}>
-            <Route
-              index
-              element={
-                <CollectionsOverviewWithSpinner
-                  isLoading={loadingCollections}
-                />
-              }
-            />
-            <Route
-              path=":collectionRouteName"
-              element={<CollectionWithSpinner isLoading={loadingCollections} />}
-            />
+            <Route index element={<CollectionsOverview />} />
+            <Route path=":collectionRouteName" element={<Collection />} />
           </Route>
 
           <Route

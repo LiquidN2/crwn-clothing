@@ -18,7 +18,6 @@ import { UserDoc, userConverter } from '../models/User';
 import { collectionConverter, CollectionDoc } from '../models/Collection';
 import { itemConverter, ShopItem } from '../models/ShopItem';
 import { ShopData } from '../redux/shop/shop.reducer';
-import { UpdateCollectionsAction } from '../redux/shop/shop.actions';
 
 const userColRef = collection(firestore, 'users').withConverter(userConverter);
 
@@ -207,7 +206,7 @@ export const watchCollections = async (): Promise<ShopData> => {
 };
 
 export const onCollectionsChange = (
-  updateCollections: (collections: ShopData) => UpdateCollectionsAction,
+  updateCollections: (collections: ShopData) => any,
   setLoadingCollections: Function
 ) => {
   setLoadingCollections(true);
