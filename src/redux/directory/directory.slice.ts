@@ -1,10 +1,12 @@
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 import { MenuItemProps } from '../../components/menu-item/menu-item.component';
 
 export interface DirectoryState {
   sections: MenuItemProps[];
 }
 
-const INITIAL_STATE: DirectoryState = {
+const initialState: DirectoryState = {
   sections: [
     {
       title: 'hats',
@@ -46,12 +48,10 @@ const INITIAL_STATE: DirectoryState = {
   ],
 };
 
-export const directoryReducer = (
-  state: DirectoryState = INITIAL_STATE,
-  action: any
-): DirectoryState => {
-  switch (action.type) {
-    default:
-      return state;
-  }
-};
+export const directorySlice = createSlice({
+  name: 'directory',
+  initialState,
+  reducers: {},
+});
+
+export const directoryReducer = directorySlice.reducer;
