@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import type { User } from 'firebase/auth';
 
@@ -11,6 +11,7 @@ import {
 
 // LAYOUT COMPONENT
 import Header from './components/header/header.component';
+import withSpinner from './components/with-spinner/with-spinner.component';
 
 // PAGE COMPONENTS
 import HomePage from './pages/homepage/homepage.component';
@@ -29,21 +30,26 @@ import Collection from './pages/shop/collection/collection.component';
 import PublicRoute from './routes/public-route.component';
 
 // REDUX HOOKS
-import { useActions, useAppSelector } from './hooks';
-import { selectCartHidden } from './redux/cart/cart.selectors';
+import { useActions } from './hooks';
+
+import { getCollections } from './firebase/firebase.firestore';
 
 // STYLES
 import './App.scss';
 
+const CollectionsOverviewWithSpinner = withSpinner(CollectionsOverview);
+const CollectionWithSpinner = withSpinner(Collection);
+
 const App: React.FC = () => {
-  const { SetCurrentUser, toggleCartHidden } = useActions();
-  const cartHidden = useAppSelector(selectCartHidden);
+  const [loadingCollections, setLoadingCollections] = useState<boolean>(false);
+  const { setCurrentUser } = useActions();
+  const { updateCollections } = useActions();
 
   useEffect(() => {
     // subscribe to Firebase auth state change
     return auth.onAuthStateChanged(async (user: User | null) => {
       if (!user) {
-        SetCurrentUser(null);
+        setCurrentUser(null);
         return;
       }
 
@@ -54,7 +60,7 @@ const App: React.FC = () => {
         const userData = await getUserById(userDocRef.id);
         if (!userData) throw Error('unable to fetch user data');
 
-        SetCurrentUser({
+        setCurrentUser({
           ...userData,
           createdAt: userData.createdAt.toLocaleString(),
         });
@@ -62,13 +68,15 @@ const App: React.FC = () => {
         console.error(err);
       }
     });
-  }, [SetCurrentUser]);
+  }, [setCurrentUser]);
 
-  const handleAppBodyClick: MouseEventHandler<HTMLDivElement> = e => {
-    console.log(e.currentTarget.querySelector('.cart-icon'));
-    // if (cartHidden) return;
-    // toggleCartHidden();
-  };
+  useEffect(() => {
+    setLoadingCollections(true);
+    getCollections().then(collections => {
+      updateCollections(collections);
+      setLoadingCollections(false);
+    });
+  }, []);
 
   return (
     <div className="app">
@@ -80,8 +88,18 @@ const App: React.FC = () => {
           <Route path="checkout" element={<CheckoutPage />} />
 
           <Route path="shop" element={<ShopPage />}>
-            <Route index element={<CollectionsOverview />} />
-            <Route path=":collectionRouteName" element={<Collection />} />
+            <Route
+              index
+              element={
+                <CollectionsOverviewWithSpinner
+                  isLoading={loadingCollections}
+                />
+              }
+            />
+            <Route
+              path=":collectionRouteName"
+              element={<CollectionWithSpinner isLoading={loadingCollections} />}
+            />
           </Route>
 
           <Route

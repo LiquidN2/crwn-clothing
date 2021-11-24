@@ -1,13 +1,19 @@
-import { SHOP_DATA, ShopData } from './shop.data';
 import { ActionType } from './shop.actionType';
 import { ShopAction } from './shop.actions';
+import { ShopCollection } from '../../models/Collection';
+
+export interface ShopData {
+  [key: string]: ShopCollection;
+}
+
+export type CollectionRouteName = keyof ShopData;
 
 export interface ShopState {
   collections: ShopData;
 }
 
 const INITIAL_STATE: ShopState = {
-  collections: SHOP_DATA,
+  collections: {},
 };
 
 export const shopReducer = (

@@ -5,6 +5,7 @@ import CollectionItem from '../../../components/collection-item/collection-item.
 export const CollectionPageContainer = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
 `;
 
 export const CollectionTitle = styled.h2`

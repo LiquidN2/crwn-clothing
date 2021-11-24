@@ -1,7 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 import { ShopCollection } from '../../models/Collection';
-import { ShopData } from './shop.data';
+import { ShopData } from './shop.reducer';
 import memoize from 'lodash.memoize';
 
 const selectShop = (state: RootState) => state.shop;
@@ -13,12 +13,12 @@ export const selectCollections = createSelector(
 
 export const selectCollectionsAsArray = createSelector(
   [selectCollections],
-  (collections): ShopCollection[] => Object.values(collections)
+  (collections): ShopCollection[] =>
+    collections ? Object.values(collections) : []
 );
 
 export const selectCollection = memoize((collectionRouteName: keyof ShopData) =>
-  createSelector(
-    [selectCollections],
-    (collections): ShopCollection => collections[collectionRouteName]
+  createSelector([selectCollections], (collections): ShopCollection | null =>
+    collections ? collections[collectionRouteName] : null
   )
 );

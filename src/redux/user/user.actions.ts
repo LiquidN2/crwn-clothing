@@ -9,7 +9,7 @@ interface SetCurrentUserAction {
 
 export type UserActions = SetCurrentUserAction;
 
-export const SetCurrentUser = (
+export const setCurrentUser = (
   user: UserType | null
 ): SetCurrentUserAction => ({
   type: ActionType.SET_CURRENT_USER,

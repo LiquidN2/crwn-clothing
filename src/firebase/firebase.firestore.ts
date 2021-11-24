@@ -1,5 +1,6 @@
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
+
 import { createUserWithEmailAndPassword, User } from 'firebase/auth';
 import {
   collection,
@@ -15,8 +16,9 @@ import {
 import { auth, firestore } from './firebase.config';
 import { UserDoc, userConverter } from '../models/User';
 import { collectionConverter, CollectionDoc } from '../models/Collection';
-import { itemConverter, ItemDoc, ShopItem } from '../models/ShopItem';
-import { ShopData } from '../redux/shop/shop.data';
+import { itemConverter, ShopItem } from '../models/ShopItem';
+import { ShopData } from '../redux/shop/shop.reducer';
+import { UpdateCollectionsAction } from '../redux/shop/shop.actions';
 
 const userColRef = collection(firestore, 'users').withConverter(userConverter);
 
@@ -93,24 +95,39 @@ export const getUserById = async (uid: string): Promise<UserDoc | null> => {
 
 // ---------------------------------
 // COLLECTIONS DATA
-export const getUpdatedCollectionItems = async (
-  collectionId: string,
-  collectionRef: CollectionReference<CollectionDoc>
+export const getCollectionItems = async (
+  collectionId: string
 ): Promise<ShopItem[]> => {
+  const collectionsRef = collection(firestore, 'collections').withConverter(
+    collectionConverter
+  );
+
   const itemsRef = collection(
-    collectionRef,
+    collectionsRef,
     collectionId,
     'items'
   ).withConverter(itemConverter);
 
   const itemsQuery = query(itemsRef);
-  // const querySnapshot = await getDocs(itemsQuery);
-  // const items = querySnapshot.docs.map(docSnapshot => {
-  //   const { id, name, imageUrl, price } = docSnapshot.data();
-  //   return { id, name, imageUrl, price, firebaseId: docSnapshot.id };
-  // });
-  //
-  // return items;
+  const querySnapshot = await getDocs(itemsQuery);
+  return querySnapshot.docs.map(docSnapshot => docSnapshot.data().toObj());
+};
+
+export const watchCollectionItems = async (
+  collectionId: string
+): Promise<ShopItem[]> => {
+  const collectionsRef = collection(firestore, 'collections').withConverter(
+    collectionConverter
+  );
+
+  const itemsRef = collection(
+    collectionsRef,
+    collectionId,
+    'items'
+  ).withConverter(itemConverter);
+
+  const itemsQuery = query(itemsRef);
+
   return new Promise((resolve, reject) => {
     try {
       onSnapshot(itemsQuery, querySnapshot => {
@@ -128,7 +145,7 @@ export const getUpdatedCollectionItems = async (
   });
 };
 
-export const watchCollection = async () => {
+export const getCollections = async () => {
   try {
     const collectionsRef = collection(firestore, 'collections').withConverter(
       collectionConverter
@@ -142,10 +159,7 @@ export const watchCollection = async () => {
       const { title } = docSnapshot.data();
       const routeName = encodeURI(title.toLocaleLowerCase());
       const firebaseId = docSnapshot.id;
-      const items = await getUpdatedCollectionItems(
-        docSnapshot.id,
-        collectionsRef
-      );
+      const items = await getCollectionItems(docSnapshot.id);
 
       collections[title.toLocaleLowerCase()] = {
         id: firebaseId,
@@ -155,12 +169,74 @@ export const watchCollection = async () => {
       };
     }
 
-    console.log('test');
-
-    console.log(collections);
-
     return collections;
   } catch (err) {
     throw err;
   }
+};
+
+export const watchCollections = async (): Promise<ShopData> => {
+  return new Promise((resolve, reject) => {
+    const collectionsRef = collection(firestore, 'collections').withConverter(
+      collectionConverter
+    );
+
+    const collectionsQuery = query(collectionsRef);
+
+    onSnapshot(collectionsQuery, async querySnapshot => {
+      const collections: ShopData = {};
+
+      for (let i = 0; i < querySnapshot.docs.length; i++) {
+        const docSnapshot = querySnapshot.docs[i];
+        const { title } = docSnapshot.data();
+        const routeName = encodeURI(title.toLocaleLowerCase());
+        const firebaseId = docSnapshot.id;
+        const items = await getCollectionItems(docSnapshot.id);
+
+        collections[title.toLocaleLowerCase()] = {
+          id: firebaseId,
+          title,
+          routeName,
+          items,
+        };
+      }
+
+      resolve(collections);
+    });
+  });
+};
+
+export const onCollectionsChange = (
+  updateCollections: (collections: ShopData) => UpdateCollectionsAction,
+  setLoadingCollections: Function
+) => {
+  setLoadingCollections(true);
+
+  const collectionsRef = collection(firestore, 'collections').withConverter(
+    collectionConverter
+  );
+
+  const collectionsQuery = query(collectionsRef);
+
+  return onSnapshot(collectionsQuery, async querySnapshot => {
+    const collections: ShopData = {};
+
+    for (let i = 0; i < querySnapshot.docs.length; i++) {
+      const docSnapshot = querySnapshot.docs[i];
+      const { title } = docSnapshot.data();
+      const routeName = encodeURI(title.toLocaleLowerCase());
+      const firebaseId = docSnapshot.id;
+      const items = await getCollectionItems(docSnapshot.id);
+
+      collections[title.toLocaleLowerCase()] = {
+        id: firebaseId,
+        title,
+        routeName,
+        items,
+      };
+    }
+
+    updateCollections(collections);
+    setLoadingCollections(false);
+  });
 };

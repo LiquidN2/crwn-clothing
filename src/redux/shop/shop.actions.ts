@@ -1,7 +1,7 @@
 import { ActionType } from './shop.actionType';
-import { ShopData } from './shop.data';
+import { ShopData } from './shop.reducer';
 
-interface UpdateCollectionsAction {
+export interface UpdateCollectionsAction {
   type: ActionType.UPDATE_COLLECTIONS;
   payload: ShopData;
 }

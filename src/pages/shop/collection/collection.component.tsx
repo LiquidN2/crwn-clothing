@@ -4,7 +4,7 @@ import { useParams, Navigate } from 'react-router-dom';
 import CollectionItem from '../../../components/collection-item/collection-item.component';
 import { useAppSelector } from '../../../hooks';
 import { selectCollection } from '../../../redux/shop/shop.selectors';
-import { CollectionRouteName } from '../../../redux/shop/shop.data';
+import { CollectionRouteName } from '../../../redux/shop/shop.reducer';
 
 import {
   CollectionPageContainer,
@@ -18,7 +18,7 @@ const Collection: React.FC = () => {
 
   const collection = useAppSelector(selectCollection(collectionRouteName));
 
-  if (!collection) return <Navigate to="/shop" />;
+  if (!collection) return null;
 
   const { title, items } = collection;
 
