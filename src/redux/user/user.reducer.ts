@@ -15,7 +15,7 @@ export interface UserState {
   currentUser: UserType | null;
 }
 
-const INITIAL_STATE = {
+const INITIAL_STATE: UserState = {
   currentUser: null,
 };
 

@@ -31,18 +31,21 @@ import PublicRoute from './routes/public-route.component';
 
 // REDUX HOOKS
 import { useActions } from './hooks';
+import { setCurrentUser } from './redux/user/user.slice';
 
 // STYLES
 import './App.scss';
 
 const App: React.FC = () => {
   const { setCurrentUser } = useActions();
+  // const dispatch = useAppDispatch();
 
   useEffect(() => {
     // subscribe to Firebase auth state change
     return auth.onAuthStateChanged(async (user: User | null) => {
       if (!user) {
         setCurrentUser(null);
+        // dispatch(setCurrentUser(null));
         return;
       }
 
@@ -53,6 +56,12 @@ const App: React.FC = () => {
         const userData = await getUserById(userDocRef.id);
         if (!userData) throw Error('unable to fetch user data');
 
+        // dispatch(
+        //   setCurrentUser({
+        //     ...userData,
+        //     createdAt: userData.createdAt.toLocaleString(),
+        //   })
+        // );
         setCurrentUser({
           ...userData,
           createdAt: userData.createdAt.toLocaleString(),
@@ -61,7 +70,7 @@ const App: React.FC = () => {
         console.error(err);
       }
     });
-  }, [setCurrentUser]);
+  }, []);
 
   return (
     <div className="app">

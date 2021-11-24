@@ -6,3 +6,5 @@ export const useActions = () => {
   const dispatch = useDispatch<AppDispatch>();
   return bindActionCreators(actionCreators, dispatch);
 };
+
+export const useAppDispatch = () => useDispatch<AppDispatch>();
