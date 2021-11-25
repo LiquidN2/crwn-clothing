@@ -5,6 +5,7 @@ export interface CustomButtonProps {
   isGoogleSignIn?: boolean;
   inverted?: boolean;
   onClick?: MouseEventHandler<HTMLButtonElement>;
+  disabled?: boolean;
 }
 
 const CustomButton: React.FC<CustomButtonProps> = ({
@@ -12,9 +13,10 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   type,
   isGoogleSignIn,
   inverted,
+  disabled,
   ...otherProps
 }) => (
-  <button type={type ? type : 'button'} {...otherProps}>
+  <button type={type ? type : 'button'} {...otherProps} disabled={disabled}>
     {children}
   </button>
 );

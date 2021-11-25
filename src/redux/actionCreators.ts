@@ -5,6 +5,8 @@ export {
   signInWithGoogleAsync,
   signInAsync,
   signOutAsync,
+  signUpAsync,
+  checkUserSessionAsync,
 } from './user';
 
 // --------------------------

@@ -3,14 +3,19 @@ import React, { FormEventHandler, MouseEventHandler, useState } from 'react';
 import FormInput from '../form-input/form-input.component';
 import { StyledCustomButton } from '../custom-button/custom-button.styles';
 
-import { SignInContainer, SignInTitle, ButtonGroup } from './sign-in.styles';
+import { ButtonGroup, SignInContainer, SignInTitle } from './sign-in.styles';
 
-import { useActions } from '../../hooks';
+import { useActions, useAppSelector } from '../../hooks';
+import { AuthStatusType, selectUserStatus } from '../../redux/user';
 
 const SignIn: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { signInAsync, signInWithGoogleAsync } = useActions();
+  const userStatus = useAppSelector(selectUserStatus);
+  const disabledButton =
+    userStatus === AuthStatusType.Authenticating ||
+    userStatus === AuthStatusType.SigningUp;
 
   const onSubmit: FormEventHandler = e => {
     e.preventDefault();
@@ -58,11 +63,14 @@ const SignIn: React.FC = () => {
         />
 
         <ButtonGroup>
-          <StyledCustomButton type="submit">Sign In</StyledCustomButton>
+          <StyledCustomButton type="submit" disabled={disabledButton}>
+            Sign In
+          </StyledCustomButton>
           <StyledCustomButton
             type="button"
             isGoogleSignIn={true}
             onClick={handleSignInWithGoogleClick}
+            disabled={disabledButton}
           >
             Sign In with Google
           </StyledCustomButton>

@@ -1,7 +1,23 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { signInWithEmailAndPassword, signOut, User } from 'firebase/auth';
 import { auth, signInWithGoogle, signUp } from '../../firebase/firebase.auth';
-import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { UserType, AuthStatusType, UserState } from './user.tsTyping';
+
+export const checkUserSessionAsync = createAsyncThunk(
+  'user/checkUserSessionAsync',
+  async (): Promise<User> => {
+    return new Promise((resolve, reject) => {
+      const unsubscribe = auth.onAuthStateChanged(user => {
+        unsubscribe();
+        if (!user) {
+          reject();
+          return;
+        }
+        resolve(user);
+      }, reject);
+    });
+  }
+);
 
 export const signInWithGoogleAsync = createAsyncThunk(
   'user/signInWithGoogleAsync',
@@ -45,7 +61,7 @@ export const signUpAsync = createAsyncThunk(
     displayName: string;
   }) => {
     try {
-      return await signUp({ email, password, displayName });
+      await signUp({ email, password, displayName });
     } catch (err) {
       throw err;
     }
@@ -54,6 +70,7 @@ export const signUpAsync = createAsyncThunk(
 
 const initialState: UserState = {
   currentUser: null,
+  userCredential: undefined,
   status: AuthStatusType.Unauthenticated,
   error: undefined,
 };
@@ -75,9 +92,10 @@ export const userSlice = createSlice({
         state.status = AuthStatusType.Authenticating;
         state.error = undefined;
       })
-      .addCase(signInWithGoogleAsync.fulfilled, state => {
+      .addCase(signInWithGoogleAsync.fulfilled, (state, action) => {
         state.status = AuthStatusType.Authenticated;
         state.error = undefined;
+        state.userCredential = action.payload;
       })
       .addCase(signInWithGoogleAsync.rejected, (state, action) => {
         state.status = AuthStatusType.Unauthenticated;
@@ -117,6 +135,17 @@ export const userSlice = createSlice({
       })
       .addCase(signUpAsync.rejected, (state, action) => {
         state.status = AuthStatusType.SignUpError;
+        state.error = action.error.message;
+      })
+      .addCase(checkUserSessionAsync.pending, state => {
+        state.status = AuthStatusType.Authenticating;
+        state.error = undefined;
+      })
+      .addCase(checkUserSessionAsync.fulfilled, state => {
+        state.status = AuthStatusType.Authenticated;
+      })
+      .addCase(checkUserSessionAsync.rejected, (state, action) => {
+        state.status = AuthStatusType.Unauthenticated;
         state.error = action.error.message;
       });
   },

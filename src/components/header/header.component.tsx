@@ -4,8 +4,8 @@ import { ReactComponent as Logo } from '../../assets/crown.svg';
 import CartIcon from '../cart-icon/cart-icon.component';
 import CartDropDown from '../cart-dropdown/cart-dropdown.component';
 
-import { useAppSelector, useActions } from '../../hooks';
-import { selectCurrentUser } from '../../redux/user';
+import { useActions, useAppSelector } from '../../hooks';
+import { AuthStatusType, selectUserStatus } from '../../redux/user';
 import { selectCartHidden } from '../../redux/cart';
 
 import {
@@ -16,7 +16,7 @@ import {
 } from './header.styles';
 
 const Header: React.FC = () => {
-  const currentUser = useAppSelector(selectCurrentUser);
+  const userStatus = useAppSelector(selectUserStatus);
   const cartHidden = useAppSelector(selectCartHidden);
   const { signOutAsync } = useActions();
 
@@ -29,7 +29,7 @@ const Header: React.FC = () => {
       <NavContainer>
         <NavItemLink to="/shop">Shop</NavItemLink>
         <NavItemLink to="/contact">Contact</NavItemLink>
-        {currentUser ? (
+        {userStatus === AuthStatusType.Authenticated ? (
           <NavItemLink as="button" onClick={() => signOutAsync()}>
             Sign out
           </NavItemLink>

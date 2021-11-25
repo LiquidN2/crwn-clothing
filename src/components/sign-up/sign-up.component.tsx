@@ -1,6 +1,8 @@
 import React, { FormEventHandler, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { signUp } from '../../firebase/firebase.auth';
+import { useActions, useAppSelector } from '../../hooks';
+import { AuthStatusType, selectUserStatus } from '../../redux/user';
 
 import FormInput from '../form-input/form-input.component';
 import { StyledCustomButton } from '../custom-button/custom-button.styles';
@@ -11,11 +13,16 @@ const SignUp: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const { signUpAsync, checkUserSessionAsync } = useActions();
+  const navigate = useNavigate();
+  const userStatus = useAppSelector(selectUserStatus);
+
+  const disabledButton =
+    userStatus === AuthStatusType.Authenticating ||
+    userStatus === AuthStatusType.SigningUp;
 
   const handleSubmit: FormEventHandler = async e => {
     e.preventDefault();
-
-    // console.log(email, password, displayName);
 
     try {
       const formData = {
@@ -29,7 +36,9 @@ const SignUp: React.FC = () => {
         throw Error('passwords do not match');
       }
 
-      await signUp({ email, password, displayName });
+      await signUpAsync({ email, password, displayName });
+      await checkUserSessionAsync();
+      navigate('/');
     } catch (err: any) {
       console.error(err);
     }
@@ -80,7 +89,9 @@ const SignUp: React.FC = () => {
           required={true}
         />
 
-        <StyledCustomButton type="submit">Sign Up</StyledCustomButton>
+        <StyledCustomButton type="submit" disabled={disabledButton}>
+          Sign Up
+        </StyledCustomButton>
       </form>
     </SignUpContainer>
   );

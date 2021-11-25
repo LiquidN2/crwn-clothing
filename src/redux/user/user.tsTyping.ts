@@ -1,3 +1,5 @@
+import { UserCredential } from 'firebase/auth';
+
 export interface UserType {
   email: string;
   displayName: string | null;
@@ -35,6 +37,7 @@ export type AuthStatus =
 
 export interface UserState {
   currentUser: UserType | null;
+  userCredential: UserCredential | undefined;
   status: AuthStatus;
   error: string | undefined;
 }

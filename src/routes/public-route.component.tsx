@@ -1,15 +1,19 @@
 import { Navigate } from 'react-router-dom';
 import { useAppSelector } from '../hooks';
-import { selectCurrentUser } from '../redux/user/user.selectors';
+import { AuthStatusType, selectUserStatus } from '../redux/user';
 
 interface PublicRouteProps {
   children: JSX.Element;
 }
 
 const PublicRoute = ({ children }: PublicRouteProps): JSX.Element => {
-  const currentUser = useAppSelector(selectCurrentUser);
+  const userStatus = useAppSelector(selectUserStatus);
 
-  return currentUser ? <Navigate to="/" /> : children;
+  return userStatus === AuthStatusType.Authenticated ? (
+    <Navigate to="/" />
+  ) : (
+    children
+  );
 };
 
 export default PublicRoute;

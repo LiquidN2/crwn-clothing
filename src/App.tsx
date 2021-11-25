@@ -1,13 +1,5 @@
 import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import type { User } from 'firebase/auth';
-
-// FIREBASE
-import { auth } from './firebase/firebase.auth';
-import {
-  createUserProfileDocument,
-  getUserById,
-} from './firebase/firebase.firestore';
 
 // LAYOUT COMPONENT
 import Header from './components/header/header.component';
@@ -35,32 +27,11 @@ import { useActions } from './hooks';
 import './App.scss';
 
 const App: React.FC = () => {
-  const { setCurrentUser } = useActions();
+  const { checkUserSessionAsync } = useActions();
 
   useEffect(() => {
-    // subscribe to Firebase auth state change
-    return auth.onAuthStateChanged(async (user: User | null) => {
-      if (!user) {
-        setCurrentUser(null);
-        return;
-      }
-
-      try {
-        const userDocRef = await createUserProfileDocument(user);
-        if (!userDocRef) throw Error('unable to get user doc ref');
-
-        const userData = await getUserById(userDocRef.id);
-        if (!userData) throw Error('unable to fetch user data');
-
-        setCurrentUser({
-          ...userData,
-          createdAt: userData.createdAt.toLocaleString(),
-        });
-      } catch (err) {
-        console.error(err);
-      }
-    });
-  }, []);
+    checkUserSessionAsync();
+  }, [checkUserSessionAsync]);
 
   return (
     <div className="app">
