@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type { CartItem as CartItemType } from '../../redux/cart/cart.reducer';
+import type { CartItem as CartItemType } from '../../redux/cart/cart.slice';
 import {
   CartItemContainer,
   CartItemImage,

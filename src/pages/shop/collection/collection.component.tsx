@@ -1,10 +1,10 @@
 import React from 'react';
-import { useParams, Navigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import CollectionItem from '../../../components/collection-item/collection-item.component';
 import { useAppSelector } from '../../../hooks';
 import { selectCollection } from '../../../redux/shop/shop.selectors';
-import { CollectionRouteName } from '../../../redux/shop/shop.reducer';
+import { CollectionRouteName } from '../../../redux/shop/shop.slice';
 
 import {
   CollectionPageContainer,

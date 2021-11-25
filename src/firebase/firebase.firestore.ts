@@ -10,14 +10,13 @@ import {
   setDoc,
   onSnapshot,
   query,
-  CollectionReference,
 } from 'firebase/firestore';
 
 import { auth, firestore } from './firebase.config';
 import { UserDoc, userConverter } from '../models/User';
-import { collectionConverter, CollectionDoc } from '../models/Collection';
+import { collectionConverter } from '../models/Collection';
 import { itemConverter, ShopItem } from '../models/ShopItem';
-import { ShopData } from '../redux/shop/shop.reducer';
+import { ShopData } from '../redux/shop/shop.slice';
 
 const userColRef = collection(firestore, 'users').withConverter(userConverter);
 

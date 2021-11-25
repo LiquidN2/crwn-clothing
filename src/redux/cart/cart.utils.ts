@@ -1,5 +1,5 @@
 import type { ShopItem } from '../../models/ShopItem';
-import type { CartItem } from './cart.reducer';
+import type { CartItem } from './cart.slice';
 
 export const addItemToCart = (
   itemToAdd: ShopItem,

@@ -1,5 +1,5 @@
 import React, { MouseEventHandler } from 'react';
-import type { CartItem } from '../../redux/cart/cart.reducer';
+import type { CartItem } from '../../redux/cart/cart.slice';
 
 import { useActions } from '../../hooks';
 import {
@@ -25,10 +25,10 @@ const CheckoutItem: React.FC<CheckoutItemProps> = ({
   const { removeItem, changeItemQuantity } = useActions();
 
   const handleIncreaseQty: MouseEventHandler<HTMLDivElement> = () =>
-    changeItemQuantity(id, 1);
+    changeItemQuantity({ itemId: id, changeQtyBy: 1 });
 
   const handleDecreaseQty: MouseEventHandler<HTMLDivElement> = () =>
-    changeItemQuantity(id, -1);
+    changeItemQuantity({ itemId: id, changeQtyBy: -1 });
 
   const handleRemoveItem: MouseEventHandler<HTMLDivElement> = () =>
     removeItem(id);
