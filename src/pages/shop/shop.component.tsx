@@ -9,6 +9,7 @@ const ShopPage: React.FC = () => {
 
   useEffect(() => {
     fetchCollectionsAsync();
+    // eslint-disable-next-line
   }, []);
 
   return (

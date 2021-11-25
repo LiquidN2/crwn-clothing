@@ -28,6 +28,7 @@ const CheckoutPage: React.FC = () => {
     // Hide cart dropdown upon page load
     if (cartHidden) return;
     toggleCartHidden();
+    // eslint-disable-next-line
   }, []);
 
   return (

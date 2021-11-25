@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import CollectionItem from '../../../components/collection-item/collection-item.component';
+// import CollectionItem from '../../../components/collection-item/collection-item.component';
 
 export const CollectionPageContainer = styled.div`
   display: flex;
@@ -14,7 +14,7 @@ export const CollectionTitle = styled.h2`
   text-transform: uppercase;
 `;
 
-const StyledItem = styled(CollectionItem);
+// const StyledItem = styled(CollectionItem);
 
 export const CollectionItems = styled.div`
   display: grid;
