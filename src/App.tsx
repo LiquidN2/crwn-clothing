@@ -30,7 +30,6 @@ import PublicRoute from './routes/public-route.component';
 
 // REDUX HOOKS
 import { useActions } from './hooks';
-import { setCurrentUser } from './redux/user/user.slice';
 
 // STYLES
 import './App.scss';
