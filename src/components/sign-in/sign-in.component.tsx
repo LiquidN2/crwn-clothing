@@ -3,13 +3,14 @@ import React, { FormEventHandler, MouseEventHandler, useState } from 'react';
 import FormInput from '../form-input/form-input.component';
 import { StyledCustomButton } from '../custom-button/custom-button.styles';
 
-import { signInWithGoogle, signIn } from '../../firebase/firebase.auth';
-
 import { SignInContainer, SignInTitle, ButtonGroup } from './sign-in.styles';
+
+import { useActions } from '../../hooks';
 
 const SignIn: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { signInAsync, signInWithGoogleAsync } = useActions();
 
   const onSubmit: FormEventHandler = e => {
     e.preventDefault();
@@ -19,13 +20,13 @@ const SignIn: React.FC = () => {
       password: password.trim(),
     };
 
-    signIn(formData).then();
+    signInAsync(formData);
   };
 
   const handleSignInWithGoogleClick: MouseEventHandler<HTMLButtonElement> =
     async () => {
       try {
-        await signInWithGoogle();
+        await signInWithGoogleAsync();
       } catch (err: any) {
         console.error('Error code:', err.code);
       }

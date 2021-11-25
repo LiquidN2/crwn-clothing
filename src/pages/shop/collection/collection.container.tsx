@@ -2,7 +2,7 @@ import React from 'react';
 import withSpinner from '../../../components/with-spinner/with-spinner.component';
 import Collection from './collection.component';
 import { useAppSelector } from '../../../hooks';
-import { selectCollectionsLoading } from '../../../redux/shop/shop.selectors';
+import { selectCollectionsLoading } from '../../../redux/shop';
 
 const CollectionWithSpinner = withSpinner(Collection);
 

@@ -5,10 +5,10 @@ import { useActions } from '../../hooks';
 import { ShopContainer } from './shop.styles';
 
 const ShopPage: React.FC = () => {
-  const { fetchCollections } = useActions();
+  const { fetchCollectionsAsync } = useActions();
 
   useEffect(() => {
-    fetchCollections();
+    fetchCollectionsAsync();
   }, []);
 
   return (

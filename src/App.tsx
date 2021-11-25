@@ -11,7 +11,6 @@ import {
 
 // LAYOUT COMPONENT
 import Header from './components/header/header.component';
-import withSpinner from './components/with-spinner/with-spinner.component';
 
 // PAGE COMPONENTS
 import HomePage from './pages/homepage/homepage.component';
@@ -38,14 +37,12 @@ import './App.scss';
 
 const App: React.FC = () => {
   const { setCurrentUser } = useActions();
-  // const dispatch = useAppDispatch();
 
   useEffect(() => {
     // subscribe to Firebase auth state change
     return auth.onAuthStateChanged(async (user: User | null) => {
       if (!user) {
         setCurrentUser(null);
-        // dispatch(setCurrentUser(null));
         return;
       }
 
@@ -56,12 +53,6 @@ const App: React.FC = () => {
         const userData = await getUserById(userDocRef.id);
         if (!userData) throw Error('unable to fetch user data');
 
-        // dispatch(
-        //   setCurrentUser({
-        //     ...userData,
-        //     createdAt: userData.createdAt.toLocaleString(),
-        //   })
-        // );
         setCurrentUser({
           ...userData,
           createdAt: userData.createdAt.toLocaleString(),

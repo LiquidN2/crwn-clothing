@@ -1,5 +1,5 @@
 import React, { MouseEventHandler } from 'react';
-import type { CartItem } from '../../redux/cart/cart.slice';
+import type { CartItem } from '../../redux/cart';
 
 import { useActions } from '../../hooks';
 import {

@@ -1,7 +1,13 @@
 import React, { MouseEventHandler } from 'react';
-import './menu-item.styles.scss';
-import history from 'history/browser';
 import { useNavigate } from 'react-router-dom';
+
+import {
+  MenuItemContainer,
+  BackgroundImage,
+  MenuItemContent,
+  MenuItemTitle,
+  MenuItemSubtitle,
+} from './menu-item.styles';
 
 export interface MenuItemProps {
   id?: number;
@@ -18,31 +24,22 @@ const MenuItem: React.FC<MenuItemProps> = ({
   size,
 }) => {
   const navigate = useNavigate();
-  const { location } = history;
   const onClick: MouseEventHandler<HTMLDivElement> = () => {
-    // console.log(`${history.location.pathname}${linkUrl}`);
     navigate(`${linkUrl}`);
   };
 
   return (
-    <div
-      style={{
-        backgroundImage: `url(${imageUrl})`,
-      }}
-      className={`${size ? size : ''} menu-item`}
-      onClick={onClick}
-    >
-      <div
-        className="background-image"
+    <MenuItemContainer className={size ? size : ''} onClick={onClick}>
+      <BackgroundImage
         style={{
           backgroundImage: `url(${imageUrl})`,
         }}
       />
-      <div className="content">
-        <h1 className="title">{title}</h1>
-        <span className="subtitle">Shop Now</span>
-      </div>
-    </div>
+      <MenuItemContent>
+        <MenuItemTitle>{title}</MenuItemTitle>
+        <MenuItemSubtitle>Shop Now</MenuItemSubtitle>
+      </MenuItemContent>
+    </MenuItemContainer>
   );
 };
 

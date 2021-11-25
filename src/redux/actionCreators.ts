@@ -1,8 +1,22 @@
-export { setCurrentUser } from './user/user.slice';
+// --------------------------
+// USER actions
+export {
+  setCurrentUser,
+  signInWithGoogleAsync,
+  signInAsync,
+  signOutAsync,
+} from './user';
+
+// --------------------------
+// CART actions
 export {
   toggleCartHidden,
   addItem,
   removeItem,
   changeItemQuantity,
-} from './cart/cart.slice';
-export { fetchCollections } from './shop/shop.slice';
+  clearCart,
+} from './cart';
+
+// --------------------------
+// SHOP actions
+export { fetchCollectionsAsync } from './shop';

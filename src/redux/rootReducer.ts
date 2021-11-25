@@ -1,10 +1,11 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer } from 'redux-persist';
-import { userReducer, UserState } from './user/user.slice';
-import { cartReducer, CartState } from './cart/cart.slice';
-import { directoryReducer, DirectoryState } from './directory/directory.slice';
-import { shopReducer, ShopState } from './shop/shop.slice';
+
+import { userReducer, UserState } from './user';
+import { cartReducer, CartState } from './cart';
+import { directoryReducer, DirectoryState } from './directory';
+import { shopReducer, ShopState } from './shop';
 
 export interface StoreState {
   user: UserState;

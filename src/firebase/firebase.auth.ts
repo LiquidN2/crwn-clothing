@@ -1,7 +1,5 @@
 import {
-  signInWithEmailAndPassword,
   signInWithPopup,
-  signOut,
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
 } from 'firebase/auth';
@@ -12,39 +10,13 @@ import { createUserProfileDocument } from './firebase.firestore';
 export { auth };
 
 // ------------------------------
-// Sign out
-export const signOutAsync = async (): Promise<void> => {
-  try {
-    await signOut(auth);
-  } catch (err) {
-    throw err;
-  }
-};
-
-// ------------------------------
 // Sign In - Google
 const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: 'select_account' });
 
-export const signInWithGoogle = async (): Promise<void> => {
+export const signInWithGoogle = async () => {
   try {
-    await signInWithPopup(auth, googleProvider);
-  } catch (err) {
-    throw err;
-  }
-};
-
-// ------------------------------
-// Sign In - Email & Password
-export const signIn = async ({
-  email,
-  password,
-}: {
-  email: string;
-  password: string;
-}): Promise<void> => {
-  try {
-    await signInWithEmailAndPassword(auth, email, password);
+    return await signInWithPopup(auth, googleProvider);
   } catch (err) {
     throw err;
   }

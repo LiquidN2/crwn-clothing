@@ -4,21 +4,21 @@ import { ReactComponent as Logo } from '../../assets/crown.svg';
 import CartIcon from '../cart-icon/cart-icon.component';
 import CartDropDown from '../cart-dropdown/cart-dropdown.component';
 
-import { signOutAsync } from '../../firebase/firebase.auth';
-import { useAppSelector } from '../../hooks';
-import { selectCurrentUser } from '../../redux/user/user.selectors';
-import { selectCartHidden } from '../../redux/cart/cart.selectors';
+import { useAppSelector, useActions } from '../../hooks';
+import { selectCurrentUser } from '../../redux/user';
+import { selectCartHidden } from '../../redux/cart';
 
 import {
   HeaderContainer,
   LogoContainer,
   NavContainer,
   NavItemLink,
-} from './Header.styles';
+} from './header.styles';
 
 const Header: React.FC = () => {
   const currentUser = useAppSelector(selectCurrentUser);
   const cartHidden = useAppSelector(selectCartHidden);
+  const { signOutAsync } = useActions();
 
   return (
     <HeaderContainer>

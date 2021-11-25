@@ -14,7 +14,7 @@ export interface ShopState {
   error: string | undefined;
 }
 
-export const fetchCollections = createAsyncThunk(
+export const fetchCollectionsAsync = createAsyncThunk(
   'shop/fetchCollections',
   async () => {
     try {
@@ -37,19 +37,19 @@ export const shopSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder
-      .addCase(fetchCollections.pending, state => {
+      .addCase(fetchCollectionsAsync.pending, state => {
         state.isLoading = true;
         state.error = undefined;
       })
       .addCase(
-        fetchCollections.fulfilled,
+        fetchCollectionsAsync.fulfilled,
         (state, action: PayloadAction<ShopData>) => {
           state.isLoading = false;
           state.error = undefined;
           state.collections = action.payload;
         }
       )
-      .addCase(fetchCollections.rejected, (state, action) => {
+      .addCase(fetchCollectionsAsync.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message;
       });

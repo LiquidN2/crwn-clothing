@@ -5,7 +5,7 @@ import CartItem from '../cart-item/cart-item.component';
 import { StyledCustomButton } from '../custom-button/custom-button.styles';
 
 import { useAppSelector } from '../../hooks';
-import { selectCartItems } from '../../redux/cart/cart.selectors';
+import { selectCartItems } from '../../redux/cart';
 
 import {
   CartDropdownContainer,

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useActions, useAppSelector } from '../../hooks';
-import { selectCartItemsCount } from '../../redux/cart/cart.selectors';
+import { selectCartItemsCount } from '../../redux/cart';
 import { CartIconContainer, ShoppingIcon, ItemCount } from './cart-icon.styles';
 
 const CartIcon: React.FC = () => {
