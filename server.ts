@@ -1,8 +1,6 @@
-import dotenv from 'dotenv';
-
-// LOAD ENV VARIABLES
-const env = process.env.NODE_ENV || 'development';
-if (env !== 'production') dotenv.config();
+// CONFIGURE ENV
+const dotenv = process.env.NODE_ENV !== 'production' ? require('dotenv') : null;
+if (dotenv) dotenv.config();
 
 import app from './app';
 
@@ -14,10 +12,11 @@ process.on('uncaughtException', err => {
   process.exit(1);
 });
 
+const env = process.env.NODE_ENV || 'development';
 const port = process.env.PORT || 5000;
 
 // START SERVER
-const server = app.listen(port, () => {
+app.listen(port, () => {
   console.log(`***** ${env.toUpperCase()} *****`);
   console.log(`✅ App running on port ${port}`);
 });
