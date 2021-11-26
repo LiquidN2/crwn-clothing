@@ -1,10 +1,14 @@
 {
-  "name": "crwn-clothing",
+  "name": "crwn-clothing-server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "client": "cd client && yarn start",
+    "server": "nodemon server.ts",
+    "build": "cd client && npm run build",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "start": "node server.ts",
+    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "repository": {
     "type": "git",
@@ -25,6 +29,9 @@
     "stripe": "^8.191.0"
   },
   "devDependencies": {
-    "concurrently": "^6.4.0"
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "concurrently": "^6.4.0",
+    "nodemon": "^2.0.15"
   }
 }

@@ -6,8 +6,11 @@
     "node": "16.13.0",
     "npm": "8.1.4"
   },
+  "proxy": "http://localhost:5000",
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.2",
+    "@stripe/react-stripe-js": "^1.6.0",
+    "@stripe/stripe-js": "^1.21.1",
     "@testing-library/jest-dom": "^5.15.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",

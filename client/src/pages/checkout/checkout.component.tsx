@@ -1,4 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { loadStripe, StripeElementsOptions } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
 
 import { useActions, useAppSelector } from '../../hooks';
 import {
@@ -9,6 +11,7 @@ import {
 
 import CheckoutItem from '../../components/checkout-item/checkout-item.component';
 import StripeCheckoutButton from '../../components/stripe-button/stripe-button.component';
+import CheckoutForm from '../../components/checkout-form/checkout-form.component';
 
 import {
   CheckoutPageContainer,
@@ -18,7 +21,16 @@ import {
   CheckoutTestWarning,
 } from './checkout.styles';
 
+const stripePublishableKey = process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY;
+if (!stripePublishableKey) {
+  throw Error(
+    'Stripe publishable key is undefined. Please check your env variables'
+  );
+}
+const stripePromise = loadStripe(stripePublishableKey);
+
 const CheckoutPage: React.FC = () => {
+  const [clientSecret, setClientSecret] = useState('');
   const cartItems = useAppSelector(selectCartItems);
   const cartTotal = useAppSelector(selectCartTotal);
   const cartHidden = useAppSelector(selectCartHidden);
@@ -30,6 +42,24 @@ const CheckoutPage: React.FC = () => {
     toggleCartHidden();
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    if (!cartTotal || cartTotal < 0.5) return;
+
+    // Create PaymentIntent as soon as the page loads
+    fetch('/create-payment-intent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ cartTotal }),
+    })
+      .then(res => res.json())
+      .then(data => setClientSecret(data.clientSecret));
+  }, [cartTotal]);
+
+  const stripeOptions: StripeElementsOptions = {
+    clientSecret,
+    appearance: { theme: 'stripe' },
+  };
 
   return (
     <CheckoutPageContainer>
@@ -66,7 +96,12 @@ const CheckoutPage: React.FC = () => {
           4242 4242 4242 4242 - Exp: 01/20 - CVV: 123
         </CheckoutTestWarning>
       ) : null}
-      {cartTotal ? <StripeCheckoutButton price={cartTotal} /> : null}
+
+      {cartTotal && clientSecret ? (
+        <Elements options={stripeOptions} stripe={stripePromise}>
+          <CheckoutForm />
+        </Elements>
+      ) : null}
     </CheckoutPageContainer>
   );
 };
