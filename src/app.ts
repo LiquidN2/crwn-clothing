@@ -1,6 +1,5 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
-import bodyParser from 'body-parser';
 import path from 'path';
 import Stripe from 'stripe';
 
@@ -16,10 +15,10 @@ if (!stripeSecretKey) {
 const stripe = new Stripe(stripeSecretKey, { apiVersion: '2020-08-27' });
 
 app.use(express.json());
-// app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
+// HANDLE STRIPE PAYMENT
 app.post('/create-payment-intent', async (req: Request, res: Response) => {
   const cartTotal = req.body.cartTotal as number;
 
@@ -30,18 +29,19 @@ app.post('/create-payment-intent', async (req: Request, res: Response) => {
     payment_method_types: ['card'],
   });
 
-  console.log(paymentIntent.client_secret);
-
   res.send({ clientSecret: paymentIntent.client_secret });
 });
 
+// HANDLE SERVING REACT APP IN PRODUCTION VIA STATIC FILE
 const env = process.env.NODE_ENV || 'development';
 if (env === 'production') {
   // Set Static folder
-  app.use(express.static('client/build'));
+  app.use(express.static(path.resolve(__dirname, '..', 'client', 'build')));
 
   app.get('*', (req: Request, res: Response) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    res.sendFile(
+      path.resolve(__dirname, '..', 'client', 'build', 'index.html')
+    );
   });
 }
 
