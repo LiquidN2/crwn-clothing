@@ -10,7 +10,6 @@ import {
 } from '../../redux/cart';
 
 import CheckoutItem from '../../components/checkout-item/checkout-item.component';
-import StripeCheckoutButton from '../../components/stripe-button/stripe-button.component';
 import CheckoutForm from '../../components/checkout-form/checkout-form.component';
 
 import {

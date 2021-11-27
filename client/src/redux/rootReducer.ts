@@ -1,5 +1,5 @@
-import { combineReducers } from '@reduxjs/toolkit';
 import storage from 'redux-persist/lib/storage';
+import { combineReducers } from '@reduxjs/toolkit';
 import { persistReducer } from 'redux-persist';
 
 import { userReducer, UserState } from './user';

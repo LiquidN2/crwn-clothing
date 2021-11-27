@@ -20,16 +20,22 @@ app.use(cors());
 
 // HANDLE STRIPE PAYMENT
 app.post('/create-payment-intent', async (req: Request, res: Response) => {
-  const cartTotal = req.body.cartTotal as number;
+  try {
+    const cartTotal = req.body.cartTotal as number;
 
-  // Create a PaymentIntent with the order amount and currency
-  const paymentIntent = await stripe.paymentIntents.create({
-    amount: cartTotal * 100,
-    currency: 'aud',
-    payment_method_types: ['card'],
-  });
+    // Create a PaymentIntent with the order amount and currency
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: cartTotal * 100,
+      currency: 'aud',
+      payment_method_types: ['card'],
+    });
 
-  res.send({ clientSecret: paymentIntent.client_secret });
+    if (!paymentIntent) throw Error('Unable to create payment intent');
+
+    res.send({ clientSecret: paymentIntent.client_secret });
+  } catch (err) {
+    res.status(500).send({ status: 'error', error: err });
+  }
 });
 
 // HANDLE SERVING REACT APP IN PRODUCTION VIA STATIC FILE
